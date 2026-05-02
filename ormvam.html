@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="fr-MA" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORMVAM — Portail des Réclamations | بوابة الشكاوى</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --eau:         #1A6B8A;
+  --eau-lt:      #2A8FAF;
+  --eau-xlt:     #5BB8D4;
+  --eau-pale:    #E8F4F8;
+  --eau-deep:    #0F4A62;
+  --prairie:     #2D7D3A;
+  --prairie-lt:  #3FA050;
+  --prairie-xlt: #72C280;
+  --prairie-pale:#EBF5EC;
+  --terre:       #8B5E3C;
+  --terre-lt:    #B07848;
+  --terre-pale:  #F5EDE4;
+  --ciel:        #F0F7F4;
+  --ciel-dk:     #E4EFE8;
+  --ble:         #C8972A;
+  --ble-lt:      #E8B840;
+  --ble-pale:    #FDF5E0;
+  --encre:       #162820;
+  --limon:       #2E4A3A;
+  --mousse:      #4A6B50;
+  --sauge:       #7A9A80;
+  --brume:       #A8BEB0;
+  --rule:        rgba(45,125,58,0.15);
+  --rule-lt:     rgba(45,125,58,0.08);
+  --r: 16px; --r-sm: 10px; --r-xs: 6px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--ciel);
+  color: var(--encre);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Fond eau */
+body::before {
+  content: ''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 900px 500px at 0% 0%,   rgba(26,107,138,0.07) 0%,transparent 55%),
+    radial-gradient(ellipse 700px 600px at 100% 100%,rgba(45,125,58,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse 500px 400px at 50% 40%,  rgba(200,151,42,0.04) 0%,transparent 60%);
+}
+body::after {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg width='120' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q30 5 60 20 Q90 35 120 20' fill='none' stroke='%231A6B8A' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-size:120px 40px;
+}
+
+/* ═══ BILINGUE HELPERS ═══
+   .bil  = conteneur d'un couple FR+AR
+   .fr   = version française
+   .ar   = version arabe (Noto Naskh, dir="rtl" inline)
+   .sep-bil = séparateur · entre les deux
+*/
+.bil {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.bil .fr {
+  font-family: 'Outfit', sans-serif;
+}
+
+.bil .ar {
+  font-family: 'Noto Naskh Arabic', serif;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+.bil .sep-bil {
+  color: var(--brume);
+  font-size: 0.75em;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* Texte arabe seul dans blocs de contenu */
+.ar-only {
+  font-family: 'Noto Naskh Arabic', serif;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+/* Labels bilingues : FR en haut, AR en dessous plus petit */
+.lbl-bil {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.lbl-bil .lf {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem; font-weight: 600;
+  color: var(--mousse);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.lbl-bil .la {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 0.72rem; font-weight: 600;
+  color: var(--sauge);
+  direction: rtl; unicode-bidi: isolate;
+  letter-spacing: 0;
+}
+
+/* ═══ HEADER ═══ */
+header {
+  position:sticky; top:0; z-index:200;
+  background:linear-gradient(135deg,var(--eau-deep) 0%,var(--eau) 60%,var(--prairie) 100%);
+  padding:0 40px;
+  display:flex; align-items:center; justify-content:space-between;
+  height:82px; gap:16px;
+  box-shadow:0 4px 24px rgba(15,74,98,0.25);
+}
+header::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(91,184,212,.8) 20%,rgba(255,255,255,.6) 50%,rgba(114,194,128,.8) 80%,transparent);
+}
+
+.logo { display:flex; align-items:center; gap:14px; flex-shrink:0; }
+
+.logo-icon {
+  width:52px; height:52px; flex-shrink:0;
+  background:rgba(255,255,255,0.12); border:1.5px solid rgba(255,255,255,0.2);
+  border-radius:14px; display:flex; align-items:center; justify-content:center;
+  font-size:28px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.2);
+  backdrop-filter:blur(8px);
+}
+
+.logo-block {}
+
+.logo-acronym {
+  display:flex; align-items:center; gap:6px; line-height:1;
+}
+.logo-acronym .fr {
+  font-family:'DM Serif Display',serif; font-size:1.1rem; color:#E8F8F0;
+  font-weight:400; letter-spacing:0.05em;
+}
+.logo-acronym .sep-bil { color:rgba(232,248,240,0.3); }
+.logo-acronym .ar {
+  font-family:'Noto Naskh Arabic',serif; font-size:0.9rem; color:rgba(232,248,240,0.7);
+}
+
+.logo-name-bil {
+  margin-top:4px; display:flex; flex-direction:column; gap:1px;
+}
+.logo-name-bil .fr {
+  font-family:'Outfit',sans-serif; font-size:0.58rem; color:rgba(232,248,240,0.55);
+  font-weight:300; letter-spacing:0.01em; max-width:280px; line-height:1.3;
+}
+.logo-name-bil .ar {
+  font-family:'Noto Naskh Arabic',serif; font-size:0.6rem; color:rgba(232,248,240,0.42);
+  direction:rtl; unicode-bidi:isolate; line-height:1.4;
+}
+.logo-addr {
+  font-size:0.53rem; color:rgba(232,248,240,0.32); margin-top:2px;
+  display:block; letter-spacing:0.03em;
+}
+
+nav { display:flex; gap:4px; }
+nav a {
+  color:rgba(232,248,240,0.5); text-decoration:none;
+  padding:7px 13px; border-radius:var(--r-xs); transition:all 0.22s; white-space:nowrap;
+}
+nav a .fr { font-family:'Outfit',sans-serif; font-size:0.78rem; font-weight:500; }
+nav a .ar { font-family:'Noto Naskh Arabic',serif; font-size:0.78rem; }
+nav a:hover { color:#E8F8F0; background:rgba(255,255,255,0.1); }
+nav a.active { color:#E8F8F0; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); }
+
+.h-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+
+.ouvert {
+  display:flex; align-items:center; gap:8px;
+  background:rgba(63,160,80,0.25); border:1px solid rgba(63,160,80,0.4);
+  border-radius:20px; padding:6px 14px; white-space:nowrap;
+}
+.ouvert .bil .fr,.ouvert .bil .ar { font-size:0.72rem; color:#A8E8B0; font-weight:500; }
+.goutte { width:6px; height:6px; border-radius:50%; background:#72C280; flex-shrink:0; animation:irr 2.5s ease-in-out infinite; }
+@keyframes irr { 0%,100%{box-shadow:0 0 0 0 rgba(114,194,128,0.5)} 50%{box-shadow:0 0 0 5px rgba(114,194,128,0)} }
+
+/* ═══ HERO ═══ */
+.hero {
+  position:relative; overflow:hidden;
+  background:linear-gradient(160deg,var(--eau-deep) 0%,var(--eau) 45%,var(--prairie) 100%);
+  padding:52px 44px 50px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.hero::before {
+  content:''; position:absolute; top:-150px; right:-100px;
+  width:450px; height:450px; border-radius:50%;
+  background:radial-gradient(circle,rgba(232,184,64,0.18) 0%,rgba(200,151,42,0.08) 40%,transparent 70%);
+}
+.hero-wave { position:absolute; bottom:-1px; left:0; right:0; line-height:0; overflow:hidden; }
+.hero-wave svg { width:100%; }
+
+.hero-inner {
+  max-width:1080px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:44px; position:relative; z-index:1;
+}
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
+  border-radius:20px; padding:5px 14px; margin-bottom:16px;
+  backdrop-filter:blur(8px);
+}
+.hero-badge .bil .fr,.hero-badge .bil .ar { font-size:0.72rem; color:rgba(232,248,240,0.8); font-weight:500; }
+
+.hero-titles { margin-bottom:14px; }
+.hero-h1-fr {
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(1.8rem,3.5vw,3rem);
+  color:#F0FAF4; line-height:1.15; font-weight:400;
+}
+.hero-h1-fr em { font-style:italic; color:var(--ble-lt); }
+.hero-h1-ar {
+  font-family:'Noto Naskh Arabic',serif;
+  font-size:clamp(1.3rem,2.2vw,1.9rem);
+  color:rgba(240,250,244,0.65); line-height:1.5;
+  direction:rtl; unicode-bidi:isolate; margin-top:4px;
+}
+
+.hero-desc-fr {
+  color:rgba(232,248,240,0.68); font-size:0.93rem; line-height:1.65; max-width:490px; font-weight:300;
+}
+.hero-desc-ar {
+  font-family:'Noto Naskh Arabic',serif;
+  color:rgba(232,248,240,0.48); font-size:0.85rem; line-height:1.85;
+  max-width:490px; direction:rtl; unicode-bidi:isolate; margin-top:6px;
+}
+
+.stats { display:flex; gap:12px; flex-shrink:0; }
+.stat {
+  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15);
+  border-radius:var(--r); padding:16px 20px; text-align:center;
+  backdrop-filter:blur(12px); min-width:82px; position:relative; overflow:hidden;
+  transition:all 0.3s;
+}
+.stat::before {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--eau-xlt),var(--prairie-xlt)); opacity:0.7;
+}
+.stat:hover { background:rgba(255,255,255,0.16); transform:translateY(-3px); }
+.st-num { font-family:'DM Serif Display',serif; font-size:1.85rem; color:#F0FAF4; display:block; line-height:1; }
+.st-lbl-fr { font-size:0.58rem; color:rgba(232,248,240,0.45); text-transform:uppercase; letter-spacing:0.07em; margin-top:4px; display:block; }
+.st-lbl-ar { font-family:'Noto Naskh Arabic',serif; font-size:0.62rem; color:rgba(232,248,240,0.32); display:block; margin-top:1px; direction:rtl; }
+
+/* ═══ STEPPER ═══ */
+.stepper { background:white; border-bottom:1px solid var(--rule); padding:0 44px; box-shadow:0 2px 12px rgba(22,40,32,0.05); }
+.stepper-in { max-width:1080px; margin:0 auto; display:flex; align-items:stretch; height:66px; }
+.step {
+  display:flex; align-items:center; gap:12px; flex:1; padding:0 20px;
+  position:relative; border-right:1px solid var(--rule-lt); transition:background 0.2s;
+}
+.step:last-child { border-right:none; }
+.step.active { background:rgba(26,107,138,0.04); }
+.step.active::after {
+  content:''; position:absolute; bottom:-1px; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--eau),var(--prairie));
+}
+.step.done::after { content:''; position:absolute; bottom:-1px; left:0; right:0; height:3px; background:var(--prairie); }
+
+.step-n {
+  width:32px; height:32px; border-radius:50%; border:2px solid var(--brume);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Outfit',sans-serif; font-size:0.82rem; font-weight:600; color:var(--brume);
+  background:white; flex-shrink:0; transition:all 0.32s;
+}
+.step.active .step-n { background:linear-gradient(135deg,var(--eau),var(--eau-lt)); border-color:var(--eau); color:white; box-shadow:0 3px 12px rgba(26,107,138,0.3); }
+.step.done .step-n { background:linear-gradient(135deg,var(--prairie),var(--prairie-lt)); border-color:var(--prairie); color:white; }
+
+.step-info {}
+.step-ti-fr { font-size:0.81rem; font-weight:600; color:var(--sauge); }
+.step.active .step-ti-fr { color:var(--eau); }
+.step.done .step-ti-fr { color:var(--prairie); }
+.step-ti-ar { font-family:'Noto Naskh Arabic',serif; font-size:0.78rem; color:var(--brume); direction:rtl; unicode-bidi:isolate; }
+.step.active .step-ti-ar { color:rgba(26,107,138,0.7); }
+.step.done .step-ti-ar { color:rgba(45,125,58,0.7); }
+.step-su { font-size:0.67rem; color:var(--brume); margin-top:1px; }
+
+/* ═══ MAIN ═══ */
+main { max-width:1080px; margin:0 auto; padding:34px 44px 90px; display:grid; grid-template-columns:1fr 290px; gap:24px; position:relative; z-index:1; }
+
+.form-card {
+  background:white; border-radius:var(--r); border:1px solid var(--rule-lt);
+  box-shadow:0 4px 32px rgba(22,40,32,0.07),0 1px 4px rgba(22,40,32,0.04);
+  overflow:hidden; position:relative;
+}
+.form-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--eau),var(--prairie-lt),var(--ble));
+}
+
+.form-sec { display:none; padding:32px; animation:glide 0.28s ease; }
+.form-sec.active { display:block; }
+@keyframes glide { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
+
+.cols { display:grid; grid-template-columns:1fr 1px 1fr; }
+.col-sep { background:var(--rule-lt); margin:0 28px; }
+.col-l { padding-right:28px; }
+.col-r { padding-left:28px; }
+
+.chd {
+  display:flex; align-items:center; gap:11px;
+  margin-bottom:22px; padding-bottom:15px;
+  border-bottom:1px solid var(--rule-lt); position:relative;
+}
+.chd::after { content:''; position:absolute; bottom:-1px; left:0; width:34px; height:2px; background:linear-gradient(90deg,var(--eau),var(--prairie-lt)); }
+.chd-icon { width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--eau-pale),var(--prairie-pale)); border:1px solid rgba(26,107,138,0.15); display:flex; align-items:center; justify-content:center; font-size:1.05rem; flex-shrink:0; }
+.chd-title-fr { font-family:'DM Serif Display',serif; font-size:1.05rem; color:var(--limon); font-weight:400; }
+.chd-title-ar { font-family:'Noto Naskh Arabic',serif; font-size:0.9rem; color:var(--sauge); direction:rtl; unicode-bidi:isolate; margin-top:1px; }
+
+/* ─ CHAMPS ─ */
+.fg { display:grid; gap:13px; margin-bottom:13px; }
+.fg2 { grid-template-columns:1fr 1fr; }
+.fld { display:flex; flex-direction:column; gap:6px; }
+
+/* Label bilingue */
+label.bil-label {
+  display:flex; flex-direction:column; gap:1px;
+  cursor:default;
+}
+label.bil-label .lf {
+  font-size:0.68rem; font-weight:600; color:var(--mousse);
+  text-transform:uppercase; letter-spacing:0.06em;
+  font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:5px;
+}
+label.bil-label .la {
+  font-size:0.72rem; font-weight:600; color:var(--sauge);
+  font-family:'Noto Naskh Arabic',serif; direction:rtl; unicode-bidi:isolate;
+  letter-spacing:0; line-height:1.2;
+}
+.req { color:#B03030; }
+
+input, select, textarea {
+  width:100%; padding:10px 13px;
+  background:var(--ciel); border:1.5px solid rgba(26,107,138,0.12);
+  border-radius:var(--r-sm);
+  font-family:'Outfit',sans-serif; font-size:0.9rem;
+  color:var(--encre); transition:all 0.22s; outline:none; appearance:none;
+}
+input:hover,select:hover,textarea:hover { border-color:rgba(26,107,138,0.25); }
+input:focus,select:focus,textarea:focus { border-color:var(--eau); background:white; box-shadow:0 0 0 3px rgba(26,107,138,0.1); }
+input::placeholder,textarea::placeholder { color:var(--brume); }
+textarea { resize:vertical; min-height:96px; line-height:1.6; }
+select {
+  cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A9A80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+}
+
+/* Hint bilingue sous le champ */
+.hint-bil { display:flex; flex-direction:column; gap:0; margin-top:3px; }
+.hint-bil .hf { font-size:0.67rem; color:var(--brume); font-style:italic; }
+.hint-bil .ha { font-family:'Noto Naskh Arabic',serif; font-size:0.68rem; color:var(--brume); direction:rtl; unicode-bidi:isolate; }
+
+/* ─ CATÉGORIES ─ */
+.cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-bottom:16px; }
+.cat {
+  padding:11px 8px 10px; text-align:center;
+  background:var(--ciel); border:1.5px solid rgba(26,107,138,0.1);
+  border-radius:var(--r-sm); cursor:pointer; transition:all 0.2s;
+}
+.cat:hover { border-color:var(--eau-lt); background:var(--eau-pale); transform:translateY(-2px); box-shadow:0 4px 14px rgba(26,107,138,0.1); }
+.cat.sel { border-color:var(--eau); background:var(--eau-pale); box-shadow:0 0 0 3px rgba(26,107,138,0.1),0 4px 14px rgba(26,107,138,0.1); }
+.ci { font-size:1.2rem; display:block; margin-bottom:4px; }
+.cn-fr { font-size:0.62rem; font-weight:600; color:var(--mousse); text-transform:uppercase; letter-spacing:0.04em; line-height:1.3; }
+.cn-ar { font-family:'Noto Naskh Arabic',serif; font-size:0.67rem; color:var(--sauge); direction:rtl; unicode-bidi:isolate; margin-top:2px; }
+.cat:hover .cn-fr,.cat.sel .cn-fr { color:var(--eau-deep); }
+.cat:hover .cn-ar,.cat.sel .cn-ar { color:var(--eau); }
+
+/* ─ URGENCE ─ */
+.urg-row { display:flex; gap:6px; margin-bottom:16px; }
+.urg { flex:1; padding:9px 4px 8px; text-align:center; background:var(--ciel); border:1.5px solid rgba(26,107,138,0.1); border-radius:var(--r-sm); cursor:pointer; transition:all 0.2s; }
+.urg:hover { background:var(--eau-pale); border-color:rgba(26,107,138,0.3); }
+.ui { font-size:1rem; display:block; margin-bottom:2px; }
+.ul-fr { font-size:0.6rem; font-weight:600; color:var(--mousse); text-transform:uppercase; letter-spacing:0.05em; }
+.ul-ar { font-family:'Noto Naskh Arabic',serif; font-size:0.65rem; color:var(--sauge); direction:rtl; unicode-bidi:isolate; margin-top:1px; }
+.urg.faible.on  { border-color:var(--prairie); background:var(--prairie-pale); }
+.urg.faible.on .ul-fr { color:var(--prairie); }
+.urg.faible.on .ul-ar { color:var(--prairie); }
+.urg.moyenne.on { border-color:var(--ble); background:var(--ble-pale); }
+.urg.moyenne.on .ul-fr { color:var(--terre); }
+.urg.moyenne.on .ul-ar { color:var(--terre); }
+.urg.haute.on   { border-color:var(--terre-lt); background:var(--terre-pale); }
+.urg.haute.on .ul-fr { color:var(--terre); }
+.urg.haute.on .ul-ar { color:var(--terre); }
+.urg.critique.on{ border-color:#B03030; background:rgba(176,48,48,0.06); }
+.urg.critique.on .ul-fr,.urg.critique.on .ul-ar { color:#8A2020; }
+
+/* ─ SÉPARATEUR ─ */
+.sep {
+  display:flex; align-items:center; gap:10px;
+  margin:16px 0;
+}
+.sep::before,.sep::after { content:''; flex:1; height:1px; background:var(--rule-lt); }
+.sep-inner { display:flex; flex-direction:column; align-items:center; gap:0; flex-shrink:0; }
+.sep-inner .sf { font-size:0.62rem; font-weight:600; color:var(--mousse); text-transform:uppercase; letter-spacing:0.07em; white-space:nowrap; }
+.sep-inner .sa { font-family:'Noto Naskh Arabic',serif; font-size:0.64rem; color:var(--sauge); direction:rtl; unicode-bidi:isolate; white-space:nowrap; }
+
+/* ─ UPLOAD ─ */
+.upl { border:1.5px dashed rgba(26,107,138,0.2); border-radius:var(--r-sm); padding:20px; text-align:center; cursor:pointer; transition:all 0.22s; background:var(--eau-pale); }
+.upl:hover { border-color:var(--eau); background:#E0F0F6; }
+.upl .ico { font-size:1.4rem; display:block; margin-bottom:7px; opacity:0.65; }
+.upl .tf { font-size:0.8rem; font-weight:500; color:var(--eau-deep); }
+.upl .ta { font-family:'Noto Naskh Arabic',serif; font-size:0.78rem; color:var(--eau); direction:rtl; unicode-bidi:isolate; margin-top:2px; }
+.upl .sub-f { font-size:0.67rem; color:var(--sauge); margin-top:3px; }
+.upl .sub-a { font-family:'Noto Naskh Arabic',serif; font-size:0.67rem; color:var(--brume); direction:rtl; unicode-bidi:isolate; }
+
+/* ─ CASES ─ */
+.chk { display:flex; align-items:flex-start; gap:11px; padding:10px 11px; border-radius:var(--r-sm); cursor:pointer; transition:background 0.15s; margin-bottom:6px; border:1.5px solid transparent; }
+.chk:hover { background:var(--prairie-pale); border-color:var(--rule); }
+.chk input[type="checkbox"] { width:15px; height:15px; accent-color:var(--eau); flex-shrink:0; margin-top:4px; }
+.chk-txt {}
+.chk-title { display:flex; flex-direction:column; gap:1px; margin-bottom:2px; }
+.chk-title .cf { font-size:0.86rem; font-weight:600; color:var(--encre); }
+.chk-title .ca { font-family:'Noto Naskh Arabic',serif; font-size:0.84rem; font-weight:600; color:var(--limon); direction:rtl; unicode-bidi:isolate; }
+.chk-sub { display:flex; flex-direction:column; gap:0; }
+.chk-sub .sf { font-size:0.72rem; color:var(--sauge); }
+.chk-sub .sa { font-family:'Noto Naskh Arabic',serif; font-size:0.7rem; color:var(--brume); direction:rtl; unicode-bidi:isolate; }
+
+/* ─ RÉCAP ─ */
+.recap { background:linear-gradient(135deg,var(--eau-pale),var(--prairie-pale)); border:1px solid rgba(26,107,138,0.15); border-radius:var(--r-sm); padding:15px; margin-bottom:15px; }
+.rg { display:grid; grid-template-columns:auto 1fr; gap:5px 12px; }
+.rl { display:flex; flex-direction:column; gap:0; }
+.rl .rf { font-size:0.67rem; color:var(--sauge); font-weight:500; }
+.rl .ra { font-family:'Noto Naskh Arabic',serif; font-size:0.65rem; color:var(--brume); direction:rtl; unicode-bidi:isolate; }
+.rv { font-size:0.87rem; font-weight:600; color:var(--encre); align-self:center; }
+
+/* ─ CALLOUT ─ */
+.callout { background:linear-gradient(135deg,rgba(26,107,138,0.07),rgba(45,125,58,0.06)); border:1.5px solid rgba(26,107,138,0.2); border-radius:var(--r-sm); padding:13px 15px; font-size:0.8rem; color:var(--limon); line-height:1.65; margin-top:15px; }
+.callout-title { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:5px; }
+.callout-title .cf { font-size:0.72rem; font-weight:700; color:var(--eau-deep); text-transform:uppercase; letter-spacing:0.05em; font-family:'Outfit',sans-serif; }
+.callout-title .ca { font-family:'Noto Naskh Arabic',serif; font-size:0.78rem; font-weight:700; color:var(--eau); direction:rtl; unicode-bidi:isolate; }
+.callout-body .cbf { font-size:0.78rem; color:var(--limon); }
+.callout-body .cba { font-family:'Noto Naskh Arabic',serif; font-size:0.76rem; color:var(--mousse); direction:rtl; unicode-bidi:isolate; }
+
+/* ─ NAV ─ */
+.form-nav { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; background:linear-gradient(135deg,var(--ciel),white); border-top:1px solid var(--rule-lt); }
+.prog { display:flex; flex-direction:column; align-items:center; gap:1px; }
+.prog .pf { font-size:0.72rem; font-weight:500; color:var(--sauge); letter-spacing:0.04em; }
+.prog .pa { font-family:'Noto Naskh Arabic',serif; font-size:0.72rem; color:var(--brume); direction:rtl; unicode-bidi:isolate; }
+
+.btn { padding:10px 22px; border-radius:var(--r-sm); border:none; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.25s; display:inline-flex; align-items:center; gap:7px; }
+.btn-ghost { background:transparent; color:var(--mousse); border:1.5px solid var(--rule); font-family:'Outfit',sans-serif; }
+.btn-ghost:hover { color:var(--limon); border-color:var(--sauge); background:var(--ciel-dk); }
+.btn-eau { background:linear-gradient(135deg,var(--eau-deep) 0%,var(--eau) 60%,var(--eau-lt) 100%); color:white; box-shadow:0 3px 14px rgba(26,107,138,0.25); font-family:'Outfit',sans-serif; }
+.btn-eau:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(26,107,138,0.4); }
+.btn-prairie { background:linear-gradient(135deg,var(--prairie) 0%,var(--prairie-lt) 100%); color:white; box-shadow:0 3px 14px rgba(45,125,58,0.22); font-family:'Outfit',sans-serif; }
+.btn-prairie:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(45,125,58,0.38); }
+.btn .bf { font-family:'Outfit',sans-serif; }
+.btn .ba { font-family:'Noto Naskh Arabic',serif; font-size:0.82rem; }
+
+/* ─ SUCCÈS ─ */
+.success-scr { display:none; text-align:center; padding:56px 32px; }
+.success-scr.active { display:block; animation:glide 0.4s ease; }
+.success-drop { width:82px; height:82px; margin:0 auto 24px; }
+.success-drop svg { width:100%; height:100%; }
+.suc-h { margin-bottom:12px; }
+.suc-h .hf { font-family:'DM Serif Display',serif; font-size:1.8rem; font-weight:400; color:var(--eau-deep); display:block; }
+.suc-h .ha { font-family:'Noto Naskh Arabic',serif; font-size:1.4rem; color:var(--prairie); direction:rtl; unicode-bidi:isolate; display:block; margin-top:4px; }
+.suc-p { max-width:420px; margin:0 auto 22px; }
+.suc-p .pf { color:var(--mousse); font-size:0.9rem; line-height:1.7; }
+.suc-p .pa { font-family:'Noto Naskh Arabic',serif; color:var(--sauge); font-size:0.86rem; line-height:1.85; direction:rtl; unicode-bidi:isolate; margin-top:4px; display:block; }
+.ref { display:inline-flex; align-items:center; gap:10px; background:linear-gradient(135deg,var(--eau-pale),var(--prairie-pale)); border:1.5px solid rgba(26,107,138,0.25); border-radius:var(--r-sm); padding:10px 22px; margin-bottom:26px; font-size:0.95rem; font-weight:700; color:var(--eau-deep); box-shadow:0 3px 14px rgba(26,107,138,0.1); }
+
+/* ─ SIDEBAR ─ */
+.sidebar { display:flex; flex-direction:column; gap:16px; }
+.sc { background:white; border:1px solid var(--rule-lt); border-radius:var(--r); box-shadow:0 3px 18px rgba(22,40,32,0.05); overflow:hidden; }
+.sc::before { content:''; display:block; height:3px; background:linear-gradient(90deg,var(--eau),var(--prairie-lt),var(--ble)); }
+.sh { padding:13px 17px; background:linear-gradient(135deg,var(--ciel),white); border-bottom:1px solid var(--rule-lt); display:flex; align-items:center; gap:10px; }
+.sh-ico { width:28px; height:28px; border-radius:7px; background:linear-gradient(135deg,var(--eau-pale),var(--prairie-pale)); border:1px solid rgba(26,107,138,0.15); display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; }
+.sh-title { }
+.sh-title .tf { font-family:'DM Serif Display',serif; font-size:0.88rem; font-weight:400; color:var(--limon); }
+.sh-title .ta { font-family:'Noto Naskh Arabic',serif; font-size:0.78rem; color:var(--sauge); direction:rtl; unicode-bidi:isolate; }
+.sb { padding:15px; }
+
+.cit { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; }
+.cit:last-child { margin-bottom:0; }
+.cit-ico { width:28px; height:28px; border-radius:7px; background:var(--ciel); border:1px solid var(--rule-lt); display:flex; align-items:center; justify-content:center; font-size:0.82rem; flex-shrink:0; }
+.cit-body {}
+.cit-l { display:flex; gap:4px; align-items:baseline; flex-wrap:wrap; margin-bottom:1px; }
+.cit-l .lf { font-size:0.62rem; font-weight:600; text-transform:uppercase; letter-spacing:0.07em; color:var(--sauge); font-family:'Outfit',sans-serif; }
+.cit-l .la { font-family:'Noto Naskh Arabic',serif; font-size:0.66rem; color:var(--brume); direction:rtl; unicode-bidi:isolate; }
+.cit-v { font-size:0.82rem; color:var(--encre); font-weight:500; }
+.cit-s { font-size:0.69rem; color:var(--brume); }
+
+.di { display:flex; gap:9px; padding:9px 0; border-bottom:1px solid var(--rule-lt); }
+.di:last-child { border-bottom:none; padding-bottom:0; }
+.dd { width:7px; height:7px; border-radius:50%; margin-top:5px; flex-shrink:0; }
+.dd.urgent { background:#C0302A; box-shadow:0 0 5px rgba(192,48,42,0.35); }
+.dd.encours { background:var(--ble); box-shadow:0 0 5px rgba(200,151,42,0.35); }
+.dd.resolu { background:var(--prairie-lt); box-shadow:0 0 5px rgba(63,160,80,0.35); }
+.di-body {}
+.di-title { display:flex; flex-direction:column; gap:0; margin-bottom:2px; }
+.di-title .tf { font-size:0.78rem; color:var(--limon); font-weight:500; }
+.di-title .ta { font-family:'Noto Naskh Arabic',serif; font-size:0.76rem; color:var(--mousse); direction:rtl; unicode-bidi:isolate; }
+.di-meta { font-size:0.67rem; color:var(--sauge); }
+
+.tip { display:flex; gap:10px; margin-bottom:11px; }
+.tip:last-child { margin-bottom:0; }
+.tn { width:19px; height:19px; border-radius:50%; flex-shrink:0; margin-top:3px; background:linear-gradient(135deg,var(--eau),var(--prairie-lt)); color:white; font-size:0.62rem; font-weight:700; display:flex; align-items:center; justify-content:center; font-family:'Outfit',sans-serif; }
+.tip-txt {}
+.tip-txt .tf { font-size:0.78rem; color:var(--limon); line-height:1.5; }
+.tip-txt .ta { font-family:'Noto Naskh Arabic',serif; font-size:0.76rem; color:var(--mousse); direction:rtl; unicode-bidi:isolate; line-height:1.7; margin-top:2px; display:block; }
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px) {
+  header { padding:0 16px; height:74px; }
+  nav { display:none; }
+  .hero { padding:36px 18px 34px; }
+  .hero-inner { flex-direction:column; gap:22px; }
+  .stats { flex-wrap:wrap; gap:10px; width:100%; }
+  .stat { flex:1; min-width:70px; }
+  .stepper { padding:0 18px; }
+  main { grid-template-columns:1fr; padding:20px 18px 60px; }
+  .cols { grid-template-columns:1fr; }
+  .col-sep { display:none; }
+  .col-l { padding-right:0; padding-bottom:24px; margin-bottom:24px; border-bottom:1px solid var(--rule-lt); }
+  .col-r { padding-left:0; }
+  .cat-grid { grid-template-columns:repeat(2,1fr); }
+  .fg2 { grid-template-columns:1fr; }
+  .form-sec { padding:20px; }
+  .form-nav { padding:14px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🌿</div>
+    <div class="logo-block">
+      <div class="logo-acronym">
+        <span class="fr">ORMVAM 🇲🇦</span>
+        <span class="sep-bil">·</span>
+        <span class="ar">م.ج.ا.ف — الملوية</span>
+      </div>
+      <div class="logo-name-bil">
+        <span class="fr">Office Régional de Mise en Valeur Agricole de la Moulouya</span>
+        <span class="ar">المكتب الجهوي للاستثمار الفلاحي بملوية</span>
+      </div>
+      <span class="logo-addr">BP 63 000 — Berkane, Maroc · ص.ب 63000 — بركان، المغرب</span>
+    </div>
+  </div>
+  <nav>
+    <a href="#" class="active"><span class="bil"><span class="fr">Réclamation</span><span class="sep-bil">·</span><span class="ar">شكوى</span></span></a>
+    <a href="#"><span class="bil"><span class="fr">Dossiers</span><span class="sep-bil">·</span><span class="ar">الملفات</span></span></a>
+    <a href="#"><span class="bil"><span class="fr">Aide</span><span class="sep-bil">·</span><span class="ar">المساعدة</span></span></a>
+  </nav>
+  <div class="h-right">
+    <div class="ouvert">
+      <div class="goutte"></div>
+      <span class="bil">
+        <span class="fr">Service ouvert</span>
+        <span class="sep-bil">·</span>
+        <span class="ar">الخدمة متاحة</span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span>💧</span>
+        <span class="bil">
+          <span class="fr">Vallée de la Moulouya — Agriculture & Irrigation</span>
+          <span class="sep-bil">·</span>
+          <span class="ar">وادي ملوية — الزراعة والسقي</span>
+        </span>
+      </div>
+      <div class="hero-titles">
+        <div class="hero-h1-fr">Vos terres méritent <em>notre engagement.</em></div>
+        <div class="hero-h1-ar">أراضيكم تستحق التزامنا الكامل.</div>
+      </div>
+      <div class="hero-desc-fr">Portail officiel des réclamations de l'ORMVAM — chaque dossier traité avec soin par nos équipes spécialisées en agriculture et gestion de l'eau, réponse garantie en 15 jours ouvrables.</div>
+      <div class="hero-desc-ar">البوابة الرسمية لشكاوى المكتب الجهوي — يُعالج كل ملف بعناية من قِبل فرقنا المتخصصة في الزراعة وتدبير المياه، رد مضمون في 15 يوم عمل.</div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <span class="st-num">94%</span>
+        <span class="st-lbl-fr">Résolution</span>
+        <span class="st-lbl-ar">نسبة الحل</span>
+      </div>
+      <div class="stat">
+        <span class="st-num">12j</span>
+        <span class="st-lbl-fr">Délai moyen</span>
+        <span class="st-lbl-ar">متوسط المدة</span>
+      </div>
+      <div class="stat">
+        <span class="st-num">3840</span>
+        <span class="st-lbl-fr">Dossiers</span>
+        <span class="st-lbl-ar">ملف معالَج</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 42" fill="none" preserveAspectRatio="none">
+      <path d="M0,28 C240,0 480,42 720,20 C960,-2 1200,38 1440,18 L1440,42 L0,42 Z" fill="#F0F7F4"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══ STEPPER ═══ -->
+<div class="stepper">
+  <div class="stepper-in">
+    <div class="step active" id="s1">
+      <div class="step-n">1</div>
+      <div class="step-info">
+        <div class="step-ti-fr">Votre situation</div>
+        <div class="step-ti-ar">وضعك</div>
+        <div class="step-su">Identité · Type · Objet &nbsp;·&nbsp; <span class="ar-only" style="font-size:0.65rem;">الهوية · النوع · الموضوع</span></div>
+      </div>
+    </div>
+    <div class="step" id="s2">
+      <div class="step-n">2</div>
+      <div class="step-info">
+        <div class="step-ti-fr">Votre réclamation</div>
+        <div class="step-ti-ar">شكواك</div>
+        <div class="step-su">Faits · Preuves · Envoi &nbsp;·&nbsp; <span class="ar-only" style="font-size:0.65rem;">الوقائع · المستندات · الإرسال</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+  <div class="form-card">
+
+    <!-- ÉTAPE 1 -->
+    <div class="form-sec active" id="form1">
+      <div class="cols">
+
+        <!-- COLONNE GAUCHE : Identité -->
+        <div class="col-l">
+          <div class="chd">
+            <div class="chd-icon">👤</div>
+            <div>
+              <div class="chd-title-fr">Vos informations</div>
+              <div class="chd-title-ar">معلوماتك الشخصية</div>
+            </div>
+          </div>
+
+          <div class="fg fg2">
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Nom <span class="req">*</span></span>
+                <span class="la">اللقب <span class="req">*</span></span>
+              </label>
+              <input type="text" placeholder="Ex : Alaoui / بن علي">
+            </div>
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Prénom <span class="req">*</span></span>
+                <span class="la">الاسم الشخصي <span class="req">*</span></span>
+              </label>
+              <input type="text" placeholder="Ex : Ahmed / محمد">
+            </div>
+          </div>
+
+          <div class="fg fg2">
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">N° Identification <span class="req">*</span></span>
+                <span class="la">رقم البطاقة الوطنية <span class="req">*</span></span>
+              </label>
+              <input type="text" placeholder="AB-123456">
+            </div>
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Province</span>
+                <span class="la">الإقليم</span>
+              </label>
+              <select>
+                <option>Choisir… / اختر…</option>
+                <option>Berkane / بركان</option>
+                <option>Oujda-Angad / وجدة-أنكاد</option>
+                <option>Taourirt / تاوريرت</option>
+                <option>Nador / الناظور</option>
+                <option>Jerada / جرادة</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fg fg2">
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Téléphone <span class="req">*</span></span>
+                <span class="la">رقم الهاتف <span class="req">*</span></span>
+              </label>
+              <input type="tel" placeholder="06 XX XX XX XX">
+            </div>
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Email <span class="req">*</span></span>
+                <span class="la">البريد الإلكتروني <span class="req">*</span></span>
+              </label>
+              <input type="email" placeholder="email@exploitation.ma">
+            </div>
+          </div>
+
+          <div class="sep">
+            <div class="sep-inner">
+              <span class="sf">Type d'exploitation</span>
+              <span class="sa">نوع الاستغلال الزراعي</span>
+            </div>
+          </div>
+          <div class="fg">
+            <select>
+              <option>Sélectionner… / اختر…</option>
+              <option>🌾 Grandes cultures / الزراعات الكبرى</option>
+              <option>🥩 Élevage / تربية الماشية</option>
+              <option>🍊 Arboriculture fruitière / الأشجار المثمرة</option>
+              <option>🥗 Maraîchage / زراعة الخضروات</option>
+              <option>💧 Agriculture irriguée / الزراعة السقوية</option>
+              <option>🔄 Polyculture-élevage / زراعة مختلطة</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-sep"></div>
+
+        <!-- COLONNE DROITE : Objet -->
+        <div class="col-r">
+          <div class="chd">
+            <div class="chd-icon">📋</div>
+            <div>
+              <div class="chd-title-fr">Objet & urgence</div>
+              <div class="chd-title-ar">موضوع الشكوى ومستوى الاستعجال</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:9px;">
+            <span class="lf" style="font-size:0.68rem;font-weight:600;color:var(--mousse);text-transform:uppercase;letter-spacing:0.06em;font-family:'Outfit',sans-serif;">Catégorie <span class="req">*</span></span>
+            <span class="ar-only" style="font-size:0.72rem;font-weight:600;color:var(--sauge);margin-right:6px;"> / فئة الشكوى <span class="req">*</span></span>
+          </div>
+
+          <div class="cat-grid">
+            <div class="cat" onclick="selC(this)">
+              <span class="ci">💧</span>
+              <div class="cn-fr">Eau & irrigation</div>
+              <div class="cn-ar">ماء وسقي</div>
+            </div>
+            <div class="cat" onclick="selC(this)">
+              <span class="ci">💰</span>
+              <div class="cn-fr">Aides & subventions</div>
+              <div class="cn-ar">دعم ومنح</div>
+            </div>
+            <div class="cat" onclick="selC(this)">
+              <span class="ci">🌧️</span>
+              <div class="cn-fr">Sinistre climatique</div>
+              <div class="cn-ar">أضرار مناخية</div>
+            </div>
+            <div class="cat" onclick="selC(this)">
+              <span class="ci">🐛</span>
+              <div class="cn-fr">Nuisibles</div>
+              <div class="cn-ar">آفات وأمراض</div>
+            </div>
+            <div class="cat" onclick="selC(this)">
+              <span class="ci">⚖️</span>
+              <div class="cn-fr">Litige</div>
+              <div class="cn-ar">نزاع تجاري</div>
+            </div>
+            <div class="cat" onclick="selC(this)">
+              <span class="ci">📦</span>
+              <div class="cn-fr">Autre</div>
+              <div class="cn-ar">أخرى</div>
+            </div>
+          </div>
+
+          <div class="sep">
+            <div class="sep-inner">
+              <span class="sf">Niveau d'urgence</span>
+              <span class="sa">مستوى الاستعجال</span>
+            </div>
+          </div>
+
+          <div class="urg-row">
+            <div class="urg faible" onclick="selU(this,'faible')">
+              <span class="ui">🌱</span>
+              <div class="ul-fr">Faible</div>
+              <div class="ul-ar">منخفض</div>
+            </div>
+            <div class="urg moyenne" onclick="selU(this,'moyenne')">
+              <span class="ui">🌤️</span>
+              <div class="ul-fr">Modérée</div>
+              <div class="ul-ar">متوسط</div>
+            </div>
+            <div class="urg haute" onclick="selU(this,'haute')">
+              <span class="ui">⚡</span>
+              <div class="ul-fr">Haute</div>
+              <div class="ul-ar">عالٍ</div>
+            </div>
+            <div class="urg critique" onclick="selU(this,'critique')">
+              <span class="ui">🔥</span>
+              <div class="ul-fr">Critique</div>
+              <div class="ul-ar">حرج</div>
+            </div>
+          </div>
+
+          <div class="fg fg2">
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Date du sinistre <span class="req">*</span></span>
+                <span class="la">تاريخ وقوع الضرر <span class="req">*</span></span>
+              </label>
+              <input type="date">
+            </div>
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Montant estimé (MAD)</span>
+                <span class="la">المبلغ التقديري (درهم)</span>
+              </label>
+              <input type="text" placeholder="Ex: 12 000 MAD / مثال: 12000 درهم">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="form-sec" id="form2">
+      <div class="cols">
+
+        <!-- COLONNE GAUCHE : Description -->
+        <div class="col-l">
+          <div class="chd">
+            <div class="chd-icon">📝</div>
+            <div>
+              <div class="chd-title-fr">Description</div>
+              <div class="chd-title-ar">وصف الشكوى</div>
+            </div>
+          </div>
+
+          <div class="fg">
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Titre de la réclamation <span class="req">*</span></span>
+                <span class="la">عنوان الشكوى <span class="req">*</span></span>
+              </label>
+              <input type="text" placeholder="Résumé en quelques mots… / لخّص مشكلتك بإيجاز…">
+            </div>
+            <div class="fld">
+              <label class="bil-label">
+                <span class="lf">Description complète des faits <span class="req">*</span></span>
+                <span class="la">وصف تفصيلي للوقائع <span class="req">*</span></span>
+              </label>
+              <textarea placeholder="Décrivez les faits chronologiquement, démarches effectuées, impact sur votre exploitation ou accès à l'irrigation…&#10;صف الوقائع بترتيب زمني، الإجراءات المتخذة، وتأثير المشكلة على مزرعتك أو وصولك إلى الري…"></textarea>
+            </div>
+          </div>
+
+          <div class="sep">
+            <div class="sep-inner">
+              <span class="sf">Documents justificatifs</span>
+              <span class="sa">الوثائق والمستندات المرفقة</span>
+            </div>
+          </div>
+
+          <div class="upl" onclick="document.getElementById('fi').click()">
+            <span class="ico">📎</span>
+            <div class="tf">Glissez ou cliquez pour ajouter vos fichiers</div>
+            <div class="ta">اسحب ملفاتك هنا أو انقر للإضافة</div>
+            <div class="sub-f">PDF, JPG, PNG — Max 10 Mo / fichier</div>
+            <div class="sub-a">PDF, JPG, PNG — حد أقصى 10 ميغابايت للملف</div>
+            <input type="file" id="fi" multiple accept=".pdf,.jpg,.png" style="display:none">
+          </div>
+        </div>
+
+        <div class="col-sep"></div>
+
+        <!-- COLONNE DROITE : Confirmation -->
+        <div class="col-r">
+          <div class="chd">
+            <div class="chd-icon">✅</div>
+            <div>
+              <div class="chd-title-fr">Confirmation</div>
+              <div class="chd-title-ar">التأكيد والمراجعة</div>
+            </div>
+          </div>
+
+          <div class="recap">
+            <div class="rg">
+              <div class="rl">
+                <span class="rf">Agriculteur</span>
+                <span class="ra">المزارع</span>
+              </div>
+              <div class="rv">—</div>
+              <div class="rl">
+                <span class="rf">Catégorie</span>
+                <span class="ra">الفئة</span>
+              </div>
+              <div class="rv">—</div>
+              <div class="rl">
+                <span class="rf">Urgence</span>
+                <span class="ra">الاستعجال</span>
+              </div>
+              <div class="rv">—</div>
+            </div>
+          </div>
+
+          <label class="chk">
+            <input type="checkbox">
+            <div class="chk-txt">
+              <div class="chk-title">
+                <span class="cf">Je certifie l'exactitude des informations</span>
+                <span class="ca">أُقرّ بصحة المعلومات المقدمة</span>
+              </div>
+              <div class="chk-sub">
+                <span class="sf">Les faits et documents fournis sont véridiques.</span>
+                <span class="sa">الوقائع والوثائق المقدمة صحيحة وأصلية.</span>
+              </div>
+            </div>
+          </label>
+
+          <label class="chk">
+            <input type="checkbox">
+            <div class="chk-txt">
+              <div class="chk-title">
+                <span class="cf">Consentement au traitement des données</span>
+                <span class="ca">الموافقة على معالجة البيانات</span>
+              </div>
+              <div class="chk-sub">
+                <span class="sf">Données utilisées uniquement pour cette réclamation.</span>
+                <span class="sa">تُستخدم البيانات حصرياً لمعالجة هذه الشكوى.</span>
+              </div>
+            </div>
+          </label>
+
+          <label class="chk">
+            <input type="checkbox">
+            <div class="chk-txt">
+              <div class="chk-title">
+                <span class="cf">Notifications SMS (optionnel)</span>
+                <span class="ca">إشعارات SMS (اختياري)</span>
+              </div>
+              <div class="chk-sub">
+                <span class="sf">Mises à jour à chaque étape du traitement.</span>
+                <span class="sa">تحديثات في كل مرحلة من مراحل المعالجة.</span>
+              </div>
+            </div>
+          </label>
+
+          <div class="callout">
+            <div class="callout-title">
+              <span class="cf">📞 Assistance ORMVAM</span>
+              <span class="sep-bil" style="color:var(--brume)">·</span>
+              <span class="ca">مساعدة المكتب الجهوي</span>
+            </div>
+            <div class="callout-body">
+              <div class="cbf">BP 63 000 — Berkane · 0 800 200 300 · reclamations@ormvam.ma</div>
+              <div class="cba">ص.ب 63000 — بركان · 0800 200 300 · reclamations@ormvam.ma</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCÈS -->
+    <div class="success-scr" id="successScr">
+      <div class="success-drop">
+        <svg viewBox="0 0 84 84" fill="none">
+          <circle cx="42" cy="42" r="40" stroke="url(#ws)" stroke-width="2"/>
+          <circle cx="42" cy="42" r="32" stroke="url(#ws)" stroke-width="1" opacity="0.4" stroke-dasharray="4 5"/>
+          <path d="M27 42 L37 52 L57 32" stroke="url(#ws)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="ws" x1="0" y1="0" x2="84" y2="84">
+              <stop offset="0%" stop-color="#1A6B8A"/>
+              <stop offset="50%" stop-color="#2D7D3A"/>
+              <stop offset="100%" stop-color="#1A6B8A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="suc-h">
+        <span class="hf">Réclamation enregistrée</span>
+        <span class="ha">تم تسجيل شكواك بنجاح</span>
+      </div>
+      <div class="suc-p">
+        <span class="pf">Votre dossier a été transmis aux équipes spécialisées de l'ORMVAM. Vous recevrez un accusé de réception par email sous 2 heures.</span>
+        <span class="pa">تم إحالة ملفك إلى الفرق المتخصصة للمكتب الجهوي. ستتلقى إيصالاً بالبريد الإلكتروني خلال ساعتين.</span>
+      </div>
+      <div class="ref">
+        <span>🌿</span>
+        <span>Réf. / مرجع</span>
+        <strong>ORMVAM · 2025 · 4721</strong>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-ghost" onclick="rst()">
+          <span class="bf">⬅ Nouvelle réclamation</span>
+          <span class="ba"> / شكوى جديدة</span>
+        </button>
+        <button class="btn btn-eau">
+          <span class="bf">📄 Télécharger</span>
+          <span class="ba"> / تحميل</span>
+        </button>
+        <button class="btn btn-ghost">
+          <span class="bf">🔍 Suivre</span>
+          <span class="ba"> / متابعة</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <div class="form-nav" id="formNav">
+      <button class="btn btn-ghost" id="prevBtn" onclick="go(-1)" style="visibility:hidden">
+        <span class="bf">← Retour</span>
+        <span class="ba"> / رجوع</span>
+      </button>
+      <div class="prog">
+        <span class="pf" id="progFr"></span>
+        <span class="pa" id="progAr"></span>
+      </div>
+      <button class="btn btn-eau" id="nextBtn" onclick="go(1)">
+        <span class="bf" id="nextFr">Continuer →</span>
+        <span class="ba" id="nextAr">متابعة ←</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <div class="sidebar">
+
+    <div class="sc">
+      <div class="sh">
+        <div class="sh-ico">📂</div>
+        <div class="sh-title">
+          <div class="tf">Mes dossiers récents</div>
+          <div class="ta">ملفاتي الأخيرة</div>
+        </div>
+      </div>
+      <div class="sb">
+        <div class="di">
+          <div><div class="dd urgent" style="margin-top:6px"></div></div>
+          <div class="di-body">
+            <div class="di-title">
+              <span class="tf">Irrigation — Retard ouverture canal</span>
+              <span class="ta">ري — تأخر فتح القناة</span>
+            </div>
+            <div class="di-meta">ORMVAM-07-3812 · En attente / في الانتظار</div>
+          </div>
+        </div>
+        <div class="di">
+          <div><div class="dd encours" style="margin-top:6px"></div></div>
+          <div class="di-body">
+            <div class="di-title">
+              <span class="tf">Grêle — Verger agrumes · 7 ha</span>
+              <span class="ta">برد — بستان الحمضيات · 7 هكتار</span>
+            </div>
+            <div class="di-meta">ORMVAM-06-3501 · En expertise / تحت التقييم</div>
+          </div>
+        </div>
+        <div class="di">
+          <div><div class="dd resolu" style="margin-top:6px"></div></div>
+          <div class="di-body">
+            <div class="di-title">
+              <span class="tf">Subvention goutte-à-goutte</span>
+              <span class="ta">دعم الري بالتنقيط</span>
+            </div>
+            <div class="di-meta">ORMVAM-04-2987 · ✓ Résolu / محلول</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sh">
+        <div class="sh-ico">🏛️</div>
+        <div class="sh-title">
+          <div class="tf">Contact & siège</div>
+          <div class="ta">التواصل والمقر الرئيسي</div>
+        </div>
+      </div>
+      <div class="sb">
+        <div class="cit">
+          <div class="cit-ico">📍</div>
+          <div class="cit-body">
+            <div class="cit-l">
+              <span class="lf">Adresse</span>
+              <span class="sep-bil" style="color:var(--brume)">·</span>
+              <span class="la">العنوان</span>
+            </div>
+            <div class="cit-v">BP 63 000 — Berkane 🇲🇦</div>
+            <div class="cit-s">ص.ب 63000 — بركان، المغرب</div>
+          </div>
+        </div>
+        <div class="cit">
+          <div class="cit-ico">☎️</div>
+          <div class="cit-body">
+            <div class="cit-l">
+              <span class="lf">Ligne directe</span>
+              <span class="sep-bil" style="color:var(--brume)">·</span>
+              <span class="la">الخط المباشر</span>
+            </div>
+            <div class="cit-v">0 800 200 300</div>
+            <div class="cit-s">Gratuit · مجاناً · Lun–Ven 8h–18h</div>
+          </div>
+        </div>
+        <div class="cit">
+          <div class="cit-ico">📧</div>
+          <div class="cit-body">
+            <div class="cit-l">
+              <span class="lf">Email</span>
+              <span class="sep-bil" style="color:var(--brume)">·</span>
+              <span class="la">البريد الإلكتروني</span>
+            </div>
+            <div class="cit-v">reclamations@ormvam.ma</div>
+            <div class="cit-s">Réponse sous 48h · رد خلال 48 ساعة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sh">
+        <div class="sh-ico">🌱</div>
+        <div class="sh-title">
+          <div class="tf">Conseils pratiques</div>
+          <div class="ta">نصائح عملية</div>
+        </div>
+      </div>
+      <div class="sb">
+        <div class="tip">
+          <div class="tn">1</div>
+          <div class="tip-txt">
+            <div class="tf">Joignez des <strong>photos datées</strong> pour tout dommage visible sur vos cultures.</div>
+            <span class="ta">أرفق <strong>صوراً مؤرخة</strong> لأي ضرر ظاهر على محاصيلك.</span>
+          </div>
+        </div>
+        <div class="tip">
+          <div class="tn">2</div>
+          <div class="tip-txt">
+            <div class="tf">Conservez tous les <strong>relevés de débit</strong> et notifications de tour d'eau.</div>
+            <span class="ta">احتفظ بجميع <strong>سجلات الصبيب</strong> وإشعارات دور الري.</span>
+          </div>
+        </div>
+        <div class="tip">
+          <div class="tn">3</div>
+          <div class="tip-txt">
+            <div class="tf">Déposez dans les <strong>délais réglementaires</strong> — certains droits sont soumis à prescription.</div>
+            <span class="ta">قدّم في الوقت المناسب — بعض <strong>الحقوق خاضعة للتقادم</strong>.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  let step = 1, total = 2;
+
+  function go(dir) {
+    const nxt = step + dir;
+    if (nxt < 1 || nxt > total + 1) return;
+    if (nxt > total) {
+      document.getElementById('form' + step).classList.remove('active');
+      document.getElementById('formNav').style.display = 'none';
+      document.getElementById('successScr').classList.add('active');
+      mk(1,'done'); mk(2,'done'); return;
+    }
+    document.getElementById('form' + step).classList.remove('active');
+    mk(step, dir > 0 ? 'done' : 'idle');
+    step = nxt;
+    document.getElementById('form' + step).classList.add('active');
+    mk(step, 'active');
+    updateNav();
+  }
+
+  function mk(n, state) {
+    const el = document.getElementById('s' + n);
+    if (!el) return;
+    el.className = 'step' + (state === 'active' ? ' active' : state === 'done' ? ' done' : '');
+    el.querySelector('.step-n').textContent = state === 'done' ? '✓' : n;
+  }
+
+  function updateNav() {
+    const pb = document.getElementById('prevBtn');
+    const pt1 = document.getElementById('progFr');
+    const pt2 = document.getElementById('progAr');
+    const nb = document.getElementById('nextBtn');
+    const nf = document.getElementById('nextFr');
+    const na = document.getElementById('nextAr');
+    pb.style.visibility = step > 1 ? 'visible' : 'hidden';
+    pt1.textContent = `Étape ${step} sur ${total}`;
+    pt2.textContent = `الخطوة ${step} من ${total}`;
+    if (step === total) {
+      nb.className = 'btn btn-prairie';
+      nf.textContent = '✓ Soumettre';
+      na.textContent = ' / إرسال الشكوى';
+    } else {
+      nb.className = 'btn btn-eau';
+      nf.textContent = 'Continuer →';
+      na.textContent = ' / متابعة';
+    }
+  }
+
+  function selC(el) {
+    document.querySelectorAll('.cat').forEach(c => c.classList.remove('sel'));
+    el.classList.add('sel');
+  }
+  function selU(el) {
+    document.querySelectorAll('.urg').forEach(u => u.classList.remove('on'));
+    el.classList.add('on');
+  }
+  function rst() {
+    step = 1;
+    document.getElementById('successScr').classList.remove('active');
+    document.getElementById('formNav').style.display = 'flex';
+    document.getElementById('form1').classList.add('active');
+    document.getElementById('form2').classList.remove('active');
+    mk(1,'active'); mk(2,'idle'); updateNav();
+  }
+
+  updateNav();
+</script>
+</body>
+</html>
