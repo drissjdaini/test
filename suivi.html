@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suivi de dossier — AgriRéclamation</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">
+      <span class="logo-icon">🌾</span>
+      <div>
+        <strong>AgriRéclamation</strong>
+        <small>Portail National des Agriculteurs</small>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link">Nouvelle réclamation</a>
+      <a href="suivi.html" class="nav-link active">Suivi de dossier</a>
+      <a href="#aide" class="nav-link">Aide</a>
+    </nav>
+    <div class="header-badge">
+      <span class="badge badge-secure">🔒 Espace sécurisé</span>
+    </div>
+  </div>
+</header>
+
+<section class="suivi-hero">
+  <div class="container">
+    <h1>📂 Suivi de vos réclamations</h1>
+    <p>Suivez l'état d'avancement de vos dossiers en temps réel</p>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- Search card -->
+  <div class="search-card">
+    <h3>🔍 Rechercher un dossier</h3>
+    <div class="search-row">
+      <input type="text" id="search-ref" placeholder="N° de référence (ex: AGRI-2025-12345)" />
+      <button class="btn btn-primary" onclick="searchDossier()">Rechercher</button>
+    </div>
+    <p style="font-size:.8rem;color:var(--text-muted);margin-top:.75rem;">
+      ou <strong>CIN + Téléphone</strong> pour retrouver tous vos dossiers :
+    </p>
+    <div class="search-row" style="margin-top:.5rem;">
+      <input type="text" placeholder="N° CIN" id="search-cin" />
+      <input type="tel"  placeholder="Téléphone" id="search-tel" />
+      <button class="btn btn-outline" onclick="loadDemoData()">Accéder</button>
+    </div>
+  </div>
+
+  <!-- Dossiers list -->
+  <div class="dossiers-grid" id="dossiers-grid">
+
+    <!-- Dossier 1 -->
+    <div class="dossier-card">
+      <div class="dossier-icon-col">🌧️</div>
+      <div>
+        <div class="dossier-ref">Référence : <strong>AGRI-2025-47821</strong></div>
+        <div class="dossier-title">Dommages sécheresse — Culture blé dur</div>
+        <div class="dossier-meta">
+          <span>📅 Déposé le 14/03/2025</span>
+          <span>📍 Meknès · Douar Sidi Bou Ali</span>
+          <span>🌾 Surface : 4,5 ha</span>
+        </div>
+        <div class="dossier-progress">
+          <div class="progress-track"><div class="progress-fill" style="width:75%"></div></div>
+          <div style="font-size:.75rem;color:var(--text-muted);">Étape 3/4 — Visite terrain planifiée</div>
+        </div>
+
+        <div class="timeline" style="margin-top:1rem;">
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div>
+              <div class="tl-label">Réclamation reçue</div>
+              <div class="tl-date">14/03/2025 · 09:42</div>
+              <div class="tl-desc">Accusé de réception envoyé par SMS</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div>
+              <div class="tl-label">Dossier en cours d'étude</div>
+              <div class="tl-date">16/03/2025 · 11:00</div>
+              <div class="tl-desc">Affecté à M. Taoufik Riad — Direction Provinciale Meknès</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div>
+              <div class="tl-label">Visite terrain programmée</div>
+              <div class="tl-date">📅 Prévue le 22/03/2025</div>
+              <div class="tl-desc">Un agent se rendra sur votre exploitation pour constater les dommages</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div>
+              <div class="tl-label">Décision &amp; indemnisation</div>
+              <div class="tl-date">En attente</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
+        <span class="status-badge status-terrain">🟠 Terrain</span>
+        <span style="font-size:.75rem;color:var(--text-muted);">Urgence : Élevée</span>
+        <button class="btn btn-outline btn-sm" style="margin-top:.5rem;">Voir détails</button>
+      </div>
+    </div>
+
+    <!-- Dossier 2 -->
+    <div class="dossier-card">
+      <div class="dossier-icon-col">💰</div>
+      <div>
+        <div class="dossier-ref">Référence : <strong>AGRI-2025-33104</strong></div>
+        <div class="dossier-title">Aide FDA non reçue — Campagne 2024/2025</div>
+        <div class="dossier-meta">
+          <span>📅 Déposé le 02/02/2025</span>
+          <span>📍 Beni Mellal · Commune Ouled Yaïch</span>
+          <span>💵 Montant : 12 000 MAD</span>
+        </div>
+        <div class="dossier-progress">
+          <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+          <div style="font-size:.75rem;color:var(--text-muted);">Étape 4/4 — Dossier traité</div>
+        </div>
+
+        <div class="timeline" style="margin-top:1rem;">
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div>
+              <div class="tl-label">Réclamation reçue</div>
+              <div class="tl-date">02/02/2025</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div>
+              <div class="tl-label">Vérification administrative</div>
+              <div class="tl-date">05/02/2025</div>
+              <div class="tl-desc">Coordonnées bancaires validées</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div>
+              <div class="tl-label">Virement effectué</div>
+              <div class="tl-date">12/02/2025</div>
+              <div class="tl-desc">12 000 MAD virés sur votre compte CIH</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div>
+              <div class="tl-label">Dossier clôturé</div>
+              <div class="tl-date">13/02/2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
+        <span class="status-badge status-traite">✅ Traité</span>
+        <span style="font-size:.75rem;color:var(--text-muted);">Urgence : Moyen</span>
+        <button class="btn btn-outline btn-sm" style="margin-top:.5rem;">Voir détails</button>
+      </div>
+    </div>
+
+    <!-- Dossier 3 -->
+    <div class="dossier-card">
+      <div class="dossier-icon-col">💧</div>
+      <div>
+        <div class="dossier-ref">Référence : <strong>AGRI-2025-51290</strong></div>
+        <div class="dossier-title">Coupure d'irrigation — Canal secondaire endommagé</div>
+        <div class="dossier-meta">
+          <span>📅 Déposé le 28/03/2025</span>
+          <span>📍 Marrakech · Commune Chichaoua</span>
+          <span>🌾 Surface : 2 ha</span>
+        </div>
+        <div class="dossier-progress">
+          <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
+          <div style="font-size:.75rem;color:var(--text-muted);">Étape 1/4 — Dossier reçu, en cours d'étude</div>
+        </div>
+
+        <div class="timeline" style="margin-top:1rem;">
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div>
+              <div class="tl-label">Réclamation reçue</div>
+              <div class="tl-date">28/03/2025 · 14:17</div>
+              <div class="tl-desc">Accusé de réception envoyé par e-mail</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div>
+              <div class="tl-label">Étude du dossier</div>
+              <div class="tl-date">En cours — délai estimé : 2 jours</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div><div class="tl-label">Visite terrain</div><div class="tl-date">En attente</div></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div><div class="tl-label">Décision</div><div class="tl-date">En attente</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
+        <span class="status-badge status-etude">🟡 En étude</span>
+        <span style="font-size:.75rem;color:var(--text-muted);">Urgence : Critique</span>
+        <button class="btn btn-outline btn-sm" style="margin-top:.5rem;">Voir détails</button>
+      </div>
+    </div>
+
+  </div><!-- /dossiers-grid -->
+
+  <div style="text-align:center;padding:1rem 0 3rem;">
+    <a href="index.html" class="btn btn-primary">➕ Déposer une nouvelle réclamation</a>
+  </div>
+</div>
+
+<section class="aide-section" id="aide">
+  <div class="container">
+    <h2>Besoin d'aide ?</h2>
+    <div class="aide-grid">
+      <div class="aide-card">
+        <span class="aide-icon">📞</span>
+        <h4>Numéro vert</h4>
+        <p><strong>0800 100 200</strong></p>
+        <small>Gratuit · Lun–Ven 8h–17h</small>
+      </div>
+      <div class="aide-card">
+        <span class="aide-icon">🏢</span>
+        <h4>Direction Provinciale</h4>
+        <p>Rendez-vous au guichet agricole de votre province</p>
+        <a href="#" class="aide-link">Trouver mon bureau →</a>
+      </div>
+      <div class="aide-card">
+        <span class="aide-icon">💬</span>
+        <h4>WhatsApp officiel</h4>
+        <p><strong>0600 000 100</strong></p>
+        <small>Assistance 7j/7 par messagerie</small>
+      </div>
+      <div class="aide-card">
+        <span class="aide-icon">📺</span>
+        <h4>Tutoriel vidéo</h4>
+        <p>Guide pas à pas pour remplir votre réclamation</p>
+        <a href="#" class="aide-link">Voir la vidéo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">🌾</span>
+      <div>
+        <strong>AgriRéclamation</strong>
+        <small>Ministère de l'Agriculture, de la Pêche Maritime, du Développement Rural et des Eaux et Forêts</small>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">Conditions d'utilisation</a>
+      <a href="#">Accessibilité</a>
+      <a href="index.html">Nouvelle réclamation</a>
+    </div>
+    <p class="footer-copy">© 2025 — Tous droits réservés · Données protégées</p>
+  </div>
+</footer>
+
+<script>
+function searchDossier() {
+  const ref = document.getElementById('search-ref').value.trim();
+  if (!ref) { alert('Veuillez saisir une référence.'); return; }
+  alert('Recherche de : ' + ref);
+}
+function loadDemoData() {
+  document.getElementById('dossiers-grid').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

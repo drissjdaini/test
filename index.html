@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriRéclamation — Portail des Agriculteurs</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ───────────────── HEADER ───────────────── -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">
+      <span class="logo-icon">🌾</span>
+      <div>
+        <strong>AgriRéclamation</strong>
+        <small>Portail National des Agriculteurs</small>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link active">Nouvelle réclamation</a>
+      <a href="suivi.html" class="nav-link">Suivi de dossier</a>
+      <a href="#aide" class="nav-link">Aide</a>
+    </nav>
+    <div class="header-badge">
+      <span class="badge badge-secure">🔒 Espace sécurisé</span>
+    </div>
+  </div>
+</header>
+
+<!-- ───────────────── HERO ───────────────── -->
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-text">
+      <span class="hero-tag">Nouveau service numérique</span>
+      <h1>Déposez votre réclamation<br /><em>en quelques minutes</em></h1>
+      <p>Signalez vos problèmes agricoles directement aux services compétents — pertes de récolte, litiges fonciers, aides impayées, dommages climatiques et plus encore.</p>
+      <div class="hero-stats">
+        <div class="stat"><strong>4 840</strong><span>Dossiers traités</span></div>
+        <div class="stat"><strong>72h</strong><span>Délai moyen de réponse</span></div>
+        <div class="stat"><strong>96%</strong><span>Taux de satisfaction</span></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-icon">📋</div>
+      <p>Formulaire en <strong>4 étapes</strong> guidées</p>
+      <ul class="hero-steps-mini">
+        <li><span class="dot dot-1"></span>Identification</li>
+        <li><span class="dot dot-2"></span>Nature du problème</li>
+        <li><span class="dot dot-3"></span>Preuves &amp; documents</li>
+        <li><span class="dot dot-4"></span>Confirmation</li>
+      </ul>
+      <a href="#form" class="btn btn-hero">Commencer ma réclamation →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── ALERT BANNER ───────────────── -->
+<div class="alert-banner container">
+  <span class="alert-icon">⚠️</span>
+  <span><strong>Alerte sécheresse 2025 :</strong> Les demandes d'indemnisation pour la sécheresse du printemps 2025 sont ouvertes jusqu'au <strong>30 juin 2025</strong>.</span>
+  <a href="#" class="alert-link">En savoir plus →</a>
+</div>
+
+<!-- ───────────────── FORM SECTION ───────────────── -->
+<main class="container form-section" id="form">
+
+  <!-- Progress bar -->
+  <div class="progress-bar-wrapper">
+    <div class="step-indicators">
+      <div class="step-indicator active" id="ind-1">
+        <div class="step-circle">1</div>
+        <span>Identification</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-indicator" id="ind-2">
+        <div class="step-circle">2</div>
+        <span>Réclamation</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-indicator" id="ind-3">
+        <div class="step-circle">3</div>
+        <span>Documents</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-indicator" id="ind-4">
+        <div class="step-circle">4</div>
+        <span>Confirmation</span>
+      </div>
+    </div>
+  </div>
+
+  <form id="complaint-form" novalidate>
+
+    <!-- ══════════ STEP 1 — IDENTIFICATION ══════════ -->
+    <div class="form-step active" id="step-1">
+      <div class="step-header">
+        <h2>👤 Identification de l'agriculteur</h2>
+        <p>Ces informations nous permettent de vous contacter et de localiser votre exploitation.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="prenom">Prénom <span class="req">*</span></label>
+          <input type="text" id="prenom" name="prenom" placeholder="Ahmed" required />
+        </div>
+        <div class="form-group">
+          <label for="nom">Nom <span class="req">*</span></label>
+          <input type="text" id="nom" name="nom" placeholder="Benali" required />
+        </div>
+        <div class="form-group">
+          <label for="cin">N° CIN / Carte agriculteur <span class="req">*</span></label>
+          <input type="text" id="cin" name="cin" placeholder="A123456" required />
+        </div>
+        <div class="form-group">
+          <label for="tel">Téléphone <span class="req">*</span></label>
+          <input type="tel" id="tel" name="tel" placeholder="06 XX XX XX XX" required />
+        </div>
+        <div class="form-group full-width">
+          <label for="email">Adresse e-mail</label>
+          <input type="email" id="email" name="email" placeholder="ahmed.benali@exemple.ma" />
+          <span class="hint">Pour recevoir les notifications de suivi de votre dossier</span>
+        </div>
+      </div>
+
+      <div class="section-divider"><span>📍 Localisation de l'exploitation</span></div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="region">Région <span class="req">*</span></label>
+          <select id="region" name="region" required>
+            <option value="">-- Sélectionner --</option>
+            <option>Tanger-Tétouan-Al Hoceïma</option>
+            <option>L'Oriental</option>
+            <option>Fès-Meknès</option>
+            <option>Rabat-Salé-Kénitra</option>
+            <option>Béni Mellal-Khénifra</option>
+            <option>Casablanca-Settat</option>
+            <option>Marrakech-Safi</option>
+            <option>Drâa-Tafilalet</option>
+            <option>Souss-Massa</option>
+            <option>Guelmim-Oued Noun</option>
+            <option>Laâyoune-Sakia El Hamra</option>
+            <option>Dakhla-Oued Ed-Dahab</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="province">Province / Cercle <span class="req">*</span></label>
+          <input type="text" id="province" name="province" placeholder="Ex : Meknès" required />
+        </div>
+        <div class="form-group">
+          <label for="commune">Commune rurale <span class="req">*</span></label>
+          <input type="text" id="commune" name="commune" placeholder="Ex : Aït Ouallal" required />
+        </div>
+        <div class="form-group">
+          <label for="douar">Douar / Lieu-dit</label>
+          <input type="text" id="douar" name="douar" placeholder="Ex : Douar Sidi Brahim" />
+        </div>
+        <div class="form-group">
+          <label for="superficie">Superficie de l'exploitation (ha)</label>
+          <input type="number" id="superficie" name="superficie" placeholder="Ex : 5.5" min="0" step="0.1" />
+        </div>
+        <div class="form-group">
+          <label for="titre_foncier">N° Titre foncier / Réquisition</label>
+          <input type="text" id="titre_foncier" name="titre_foncier" placeholder="Ex : TF 12345/R" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <div></div>
+        <button type="button" class="btn btn-primary" onclick="goToStep(2)">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- ══════════ STEP 2 — RÉCLAMATION ══════════ -->
+    <div class="form-step" id="step-2">
+      <div class="step-header">
+        <h2>📝 Nature de la réclamation</h2>
+        <p>Décrivez le problème rencontré avec précision pour permettre un traitement rapide de votre dossier.</p>
+      </div>
+
+      <!-- Category cards -->
+      <div class="form-group full-width">
+        <label>Catégorie de réclamation <span class="req">*</span></label>
+        <div class="category-grid" id="category-grid">
+          <div class="cat-card" data-cat="climatique" onclick="selectCategory(this)">
+            <span class="cat-icon">🌧️</span>
+            <strong>Aléa climatique</strong>
+            <small>Sécheresse, grêle, gel, inondation</small>
+          </div>
+          <div class="cat-card" data-cat="foncier" onclick="selectCategory(this)">
+            <span class="cat-icon">📐</span>
+            <strong>Litige foncier</strong>
+            <small>Délimitation, accaparement, bornage</small>
+          </div>
+          <div class="cat-card" data-cat="subvention" onclick="selectCategory(this)">
+            <span class="cat-icon">💰</span>
+            <strong>Aides &amp; subventions</strong>
+            <small>Fond Agricole, FDA, crédit Tayssir</small>
+          </div>
+          <div class="cat-card" data-cat="eau" onclick="selectCategory(this)">
+            <span class="cat-icon">💧</span>
+            <strong>Eau &amp; irrigation</strong>
+            <small>Accès eau, canal, tarification</small>
+          </div>
+          <div class="cat-card" data-cat="intrants" onclick="selectCategory(this)">
+            <span class="cat-icon">🌱</span>
+            <strong>Intrants agricoles</strong>
+            <small>Semences, engrais, pesticides</small>
+          </div>
+          <div class="cat-card" data-cat="equipement" onclick="selectCategory(this)">
+            <span class="cat-icon">🚜</span>
+            <strong>Équipements</strong>
+            <small>Matériel, mécanisation, stockage</small>
+          </div>
+          <div class="cat-card" data-cat="ravageur" onclick="selectCategory(this)">
+            <span class="cat-icon">🐛</span>
+            <strong>Ravageurs &amp; maladies</strong>
+            <small>Invasion acridienne, cryptogamique</small>
+          </div>
+          <div class="cat-card" data-cat="marche" onclick="selectCategory(this)">
+            <span class="cat-icon">📊</span>
+            <strong>Prix &amp; marché</strong>
+            <small>Effondrement prix, intermédiaires</small>
+          </div>
+          <div class="cat-card" data-cat="infrastructure" onclick="selectCategory(this)">
+            <span class="cat-icon">🛤️</span>
+            <strong>Infrastructure</strong>
+            <small>Pistes, électricité rurale, stockage</small>
+          </div>
+          <div class="cat-card" data-cat="autre" onclick="selectCategory(this)">
+            <span class="cat-icon">📌</span>
+            <strong>Autre</strong>
+            <small>Signalement non listé ci-dessus</small>
+          </div>
+        </div>
+        <input type="hidden" id="categorie" name="categorie" required />
+      </div>
+
+      <!-- Subcategory (dynamic) -->
+      <div class="form-group full-width" id="subcategory-group" style="display:none;">
+        <label for="sous_categorie">Sous-catégorie <span class="req">*</span></label>
+        <select id="sous_categorie" name="sous_categorie">
+          <option value="">-- Préciser --</option>
+        </select>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="date_incident">Date de survenance <span class="req">*</span></label>
+          <input type="date" id="date_incident" name="date_incident" required />
+        </div>
+        <div class="form-group">
+          <label for="urgence">Niveau d'urgence <span class="req">*</span></label>
+          <select id="urgence" name="urgence" required>
+            <option value="">-- Sélectionner --</option>
+            <option value="critique">🔴 Critique — impact immédiat sur la production</option>
+            <option value="eleve">🟠 Élevé — perte significative en cours</option>
+            <option value="moyen">🟡 Moyen — situation dégradée mais stable</option>
+            <option value="faible">🟢 Faible — gêne ou signalement préventif</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="surface_touchee">Superficie touchée (ha)</label>
+          <input type="number" id="surface_touchee" name="surface_touchee" placeholder="Ex : 3.2" min="0" step="0.1" />
+        </div>
+        <div class="form-group">
+          <label for="perte_estimee">Perte estimée (MAD)</label>
+          <input type="number" id="perte_estimee" name="perte_estimee" placeholder="Ex : 15000" min="0" />
+        </div>
+        <div class="form-group full-width">
+          <label for="cultures_touchees">Cultures / Productions touchées</label>
+          <div class="tag-input-wrapper">
+            <div id="tag-container" class="tag-container"></div>
+            <input type="text" id="culture-input" placeholder="Blé dur, olivier, agrumes… (Entrée pour ajouter)" />
+            <input type="hidden" id="cultures_touchees" name="cultures_touchees" />
+          </div>
+        </div>
+        <div class="form-group full-width">
+          <label for="description">Description détaillée <span class="req">*</span></label>
+          <textarea id="description" name="description" rows="6"
+            placeholder="Décrivez le problème : quand, comment, quelles conséquences sur votre exploitation, démarches déjà entreprises…" required></textarea>
+          <div class="char-count"><span id="char-count">0</span>/1000 caractères</div>
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Des démarches ont-elles déjà été entreprises ?</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="demarches_anterieures" value="oui" /> Oui
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="demarches_anterieures" value="non" checked /> Non
+          </label>
+        </div>
+      </div>
+      <div class="form-group full-width" id="demarches-detail" style="display:none;">
+        <label for="demarches_desc">Précisez les démarches effectuées</label>
+        <textarea id="demarches_desc" name="demarches_desc" rows="3"
+          placeholder="Auprès de qui ? Quand ? Résultat obtenu ?"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">← Précédent</button>
+        <button type="button" class="btn btn-primary" onclick="goToStep(3)">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- ══════════ STEP 3 — DOCUMENTS ══════════ -->
+    <div class="form-step" id="step-3">
+      <div class="step-header">
+        <h2>📎 Pièces jointes &amp; preuves</h2>
+        <p>Les documents renforcent votre dossier. Photos, actes, factures — tout justificatif est utile.</p>
+      </div>
+
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-icon">📁</div>
+        <p><strong>Glisser-déposer vos fichiers ici</strong></p>
+        <p class="upload-hint">ou cliquez pour parcourir</p>
+        <p class="upload-formats">Formats acceptés : JPG, PNG, PDF, MP4 · Max 10 Mo par fichier · 5 fichiers max</p>
+        <input type="file" id="file-input" multiple accept=".jpg,.jpeg,.png,.pdf,.mp4" style="display:none;" />
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('file-input').click()">
+          Parcourir les fichiers
+        </button>
+      </div>
+
+      <div id="file-list" class="file-list" style="display:none;"></div>
+
+      <div class="document-guide">
+        <h4>📋 Selon votre réclamation, pensez à joindre :</h4>
+        <div class="guide-grid" id="doc-guide-grid">
+          <div class="guide-item">
+            <span class="guide-icon">📸</span>
+            <span>Photos des dommages ou de la situation</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-icon">📄</span>
+            <span>Copie du titre foncier ou acte de possession</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-icon">🧾</span>
+            <span>Factures d'achats d'intrants ou de matériel</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-icon">📑</span>
+            <span>Relevés bancaires ou avis de paiement FDA</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-icon">🌡️</span>
+            <span>Bulletins météo ou rapports de constat</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-icon">✉️</span>
+            <span>Correspondances avec les services agricoles</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group full-width" style="margin-top:1.5rem;">
+        <label for="notes_doc">Remarques sur les documents joints</label>
+        <textarea id="notes_doc" name="notes_doc" rows="3"
+          placeholder="Précisez si des documents sont en cours d'obtention ou si vous souhaitez les apporter en main propre…"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">← Précédent</button>
+        <button type="button" class="btn btn-primary" onclick="goToStep(4)">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- ══════════ STEP 4 — CONFIRMATION ══════════ -->
+    <div class="form-step" id="step-4">
+      <div class="step-header">
+        <h2>✅ Récapitulatif &amp; confirmation</h2>
+        <p>Vérifiez les informations avant de soumettre votre réclamation.</p>
+      </div>
+
+      <div id="recap-content" class="recap-card"></div>
+
+      <div class="consent-block">
+        <label class="checkbox-label">
+          <input type="checkbox" id="consent" name="consent" required />
+          <span>Je certifie que les informations fournies sont exactes et complètes. J'autorise les services agricoles compétents à traiter mes données dans le cadre du traitement de cette réclamation.</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="notifications" name="notifications" />
+          <span>Je souhaite recevoir des notifications par SMS/e-mail sur l'avancement de mon dossier.</span>
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToStep(3)">← Précédent</button>
+        <button type="submit" class="btn btn-submit" id="submit-btn">
+          <span>📨 Soumettre ma réclamation</span>
+        </button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- ══════════ SUCCESS STATE ══════════ -->
+  <div id="success-state" class="success-state" style="display:none;">
+    <div class="success-icon">✅</div>
+    <h2>Réclamation enregistrée avec succès !</h2>
+    <div class="reference-box">
+      <span>Votre numéro de dossier</span>
+      <strong id="ref-number">AGRI-2025-XXXXX</strong>
+      <button class="btn btn-outline btn-sm" onclick="copyRef()">📋 Copier</button>
+    </div>
+    <p>Un accusé de réception vous sera envoyé sous <strong>24h</strong>. Votre dossier sera traité dans un délai de <strong>72h ouvrées</strong>.</p>
+    <div class="success-actions">
+      <a href="suivi.html" class="btn btn-primary">📂 Suivre mon dossier</a>
+      <button class="btn btn-outline" onclick="resetForm()">➕ Nouvelle réclamation</button>
+    </div>
+    <div class="next-steps">
+      <h4>Prochaines étapes :</h4>
+      <ol>
+        <li>Accusé de réception par SMS/e-mail</li>
+        <li>Étude du dossier par le service compétent</li>
+        <li>Visite de terrain si nécessaire</li>
+        <li>Notification de la décision</li>
+      </ol>
+    </div>
+  </div>
+
+</main>
+
+<!-- ───────────────── AIDE SECTION ───────────────── -->
+<section class="aide-section" id="aide">
+  <div class="container">
+    <h2>Besoin d'aide ?</h2>
+    <div class="aide-grid">
+      <div class="aide-card">
+        <span class="aide-icon">📞</span>
+        <h4>Numéro vert</h4>
+        <p><strong>0800 100 200</strong></p>
+        <small>Gratuit · Lun–Ven 8h–17h</small>
+      </div>
+      <div class="aide-card">
+        <span class="aide-icon">🏢</span>
+        <h4>Direction Provinciale</h4>
+        <p>Rendez-vous au guichet agricole de votre province</p>
+        <a href="#" class="aide-link">Trouver mon bureau →</a>
+      </div>
+      <div class="aide-card">
+        <span class="aide-icon">💬</span>
+        <h4>WhatsApp officiel</h4>
+        <p><strong>0600 000 100</strong></p>
+        <small>Assistance 7j/7 par messagerie</small>
+      </div>
+      <div class="aide-card">
+        <span class="aide-icon">📺</span>
+        <h4>Tutoriel vidéo</h4>
+        <p>Guide pas à pas pour remplir votre réclamation</p>
+        <a href="#" class="aide-link">Voir la vidéo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── FOOTER ───────────────── -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">🌾</span>
+      <div>
+        <strong>AgriRéclamation</strong>
+        <small>Ministère de l'Agriculture, de la Pêche Maritime, du Développement Rural et des Eaux et Forêts</small>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">Conditions d'utilisation</a>
+      <a href="#">Accessibilité</a>
+      <a href="suivi.html">Suivi de dossier</a>
+    </div>
+    <p class="footer-copy">© 2025 — Tous droits réservés · Données protégées</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
