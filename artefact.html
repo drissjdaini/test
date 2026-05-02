@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriRéclamation — Portail des Agriculteurs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+/* ─────────────────────────────────────────
+   AgriRéclamation — Design System
+   Palette : vert agricole + terre + blanc
+───────────────────────────────────────── */
+:root {
+  --green-dark:   #1a5c2e;
+  --green-mid:    #2e7d46;
+  --green-light:  #4caf6e;
+  --green-pale:   #e8f5ec;
+  --amber:        #e8870a;
+  --amber-pale:   #fff8ed;
+  --red-alert:    #c0392b;
+  --blue:         #1565c0;
+  --blue-pale:    #e3eeff;
+  --text-primary:   #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-muted:     #777;
+  --bg-page:     #f7f9f5;
+  --bg-white:    #ffffff;
+  --border:      #dde8e2;
+  --border-dark: #adc8b6;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 2px 8px rgba(30,80,50,.08);
+  --shadow-md: 0 6px 24px rgba(30,80,50,.12);
+  --shadow-lg: 0 16px 48px rgba(30,80,50,.16);
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg-page); color: var(--text-primary); line-height: 1.6; font-size: 15px; }
+a { color: var(--green-mid); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* HEADER */
+.site-header { background: var(--bg-white); border-bottom: 2px solid var(--green-pale); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.header-inner { display: flex; align-items: center; gap: 1.5rem; padding: .85rem 1.5rem; max-width: 1080px; margin: 0 auto; }
+.logo { display: flex; align-items: center; gap: .6rem; flex-shrink: 0; }
+.logo-icon { font-size: 1.8rem; }
+.logo strong { display: block; font-size: 1rem; color: var(--green-dark); }
+.logo small { font-size: .7rem; color: var(--text-muted); }
+.header-nav { display: flex; gap: 0; margin-left: auto; }
+.nav-link { padding: .45rem 1rem; border-radius: var(--radius-sm); font-size: .88rem; font-weight: 500; color: var(--text-secondary); transition: background .15s, color .15s; cursor: pointer; }
+.nav-link:hover, .nav-link.active { background: var(--green-pale); color: var(--green-dark); text-decoration: none; }
+.badge-secure { font-size: .75rem; background: var(--green-pale); color: var(--green-dark); padding: .3rem .7rem; border-radius: 20px; white-space: nowrap; }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, #3a9b5c 100%); padding: 4rem 0 3.5rem; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+.hero-content { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; position: relative; }
+.hero-text { color: #fff; }
+.hero-tag { display: inline-block; background: rgba(255,255,255,.15); color: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.25); padding: .25rem .75rem; border-radius: 20px; font-size: .78rem; font-weight: 500; margin-bottom: 1rem; letter-spacing: .03em; }
+.hero-text h1 { font-size: 2.4rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+.hero-text h1 em { font-style: normal; color: #a8ffb8; }
+.hero-text p { font-size: 1.05rem; color: rgba(255,255,255,.85); max-width: 520px; margin-bottom: 2rem; }
+.hero-stats { display: flex; gap: 2rem; }
+.stat { display: flex; flex-direction: column; }
+.stat strong { font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1; }
+.stat span { font-size: .78rem; color: rgba(255,255,255,.7); margin-top: .2rem; }
+.hero-card { background: rgba(255,255,255,.97); border-radius: var(--radius-lg); padding: 2rem 1.8rem; width: 280px; box-shadow: var(--shadow-lg); text-align: center; }
+.hero-card-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+.hero-card p { font-size: .95rem; color: var(--text-secondary); margin-bottom: 1.25rem; }
+.hero-steps-mini { list-style: none; text-align: left; margin-bottom: 1.5rem; font-size: .85rem; color: var(--text-secondary); }
+.hero-steps-mini li { display: flex; align-items: center; gap: .5rem; padding: .3rem 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot-1 { background: var(--green-light); }
+.dot-2 { background: var(--amber); }
+.dot-3 { background: var(--blue); }
+.dot-4 { background: var(--green-dark); }
+
+/* ALERT */
+.alert-banner { display: flex; align-items: center; gap: .75rem; background: #fff8ed; border: 1px solid #f5c97a; border-radius: var(--radius-md); padding: .85rem 1.25rem; margin: 1.5rem auto; font-size: .88rem; }
+.alert-icon { font-size: 1.1rem; }
+.alert-link { margin-left: auto; color: var(--amber); font-weight: 600; white-space: nowrap; }
+
+/* FORM SECTION */
+.form-section { padding: 2rem 1.5rem 4rem; }
+.progress-bar-wrapper { background: var(--bg-white); border-radius: var(--radius-md); padding: 1.5rem 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+.step-indicators { display: flex; align-items: center; justify-content: space-between; }
+.step-indicator { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 0 0 auto; }
+.step-indicator span { font-size: .78rem; color: var(--text-muted); font-weight: 500; }
+.step-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--border); color: var(--text-muted); font-weight: 700; font-size: .9rem; display: flex; align-items: center; justify-content: center; transition: background .3s, color .3s, box-shadow .3s; }
+.step-line { flex: 1; height: 3px; background: var(--border); border-radius: 2px; margin: 0 .5rem; margin-bottom: 1.4rem; transition: background .3s; }
+.step-indicator.active .step-circle { background: var(--green-mid); color: #fff; box-shadow: 0 0 0 4px rgba(46,125,70,.2); }
+.step-indicator.active span { color: var(--green-dark); font-weight: 600; }
+.step-indicator.done .step-circle { background: var(--green-light); color: #fff; font-size: 0; }
+.step-indicator.done .step-circle::after { content: '✓'; font-size: .9rem; }
+.step-line.done { background: var(--green-light); }
+
+/* FORM STEPS */
+.form-step { display: none; background: var(--bg-white); border-radius: var(--radius-lg); padding: 2.5rem 2.5rem 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); animation: fadeSlide .3s ease; }
+.form-step.active { display: block; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.step-header { margin-bottom: 2rem; }
+.step-header h2 { font-size: 1.35rem; color: var(--green-dark); margin-bottom: .4rem; }
+.step-header p { color: var(--text-secondary); font-size: .9rem; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1.5rem; }
+.form-group { display: flex; flex-direction: column; gap: .35rem; }
+.form-group.full-width { grid-column: 1 / -1; }
+label { font-size: .85rem; font-weight: 600; color: var(--text-secondary); }
+.req { color: var(--red-alert); }
+.hint { font-size: .78rem; color: var(--text-muted); }
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], select, textarea { width: 100%; padding: .65rem .9rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font); font-size: .9rem; color: var(--text-primary); background: var(--bg-white); transition: border-color .2s, box-shadow .2s; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(46,125,70,.12); }
+input.error, select.error, textarea.error { border-color: var(--red-alert); box-shadow: 0 0 0 3px rgba(192,57,43,.1); }
+.error-msg { font-size: .78rem; color: var(--red-alert); margin-top: .2rem; }
+textarea { resize: vertical; min-height: 120px; }
+.section-divider { grid-column: 1 / -1; margin: 1rem 0 .5rem; display: flex; align-items: center; gap: .75rem; }
+.section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-divider span { font-size: .8rem; font-weight: 600; color: var(--green-dark); white-space: nowrap; background: var(--bg-white); padding: 0 .5rem; }
+
+/* CATEGORY CARDS */
+.category-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .8rem; margin-top: .5rem; }
+.cat-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1rem .7rem; border: 2px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: border-color .2s, background .2s, box-shadow .2s, transform .15s; gap: .4rem; background: var(--bg-white); }
+.cat-card:hover { border-color: var(--green-light); background: var(--green-pale); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.cat-card.selected { border-color: var(--green-mid); background: var(--green-pale); box-shadow: 0 0 0 3px rgba(46,125,70,.2); }
+.cat-icon { font-size: 1.8rem; }
+.cat-card strong { font-size: .8rem; color: var(--text-primary); line-height: 1.2; }
+.cat-card small { font-size: .7rem; color: var(--text-muted); line-height: 1.3; }
+
+/* TAG INPUT */
+.tag-input-wrapper { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; padding: .5rem .7rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-white); cursor: text; min-height: 44px; transition: border-color .2s, box-shadow .2s; }
+.tag-input-wrapper:focus-within { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(46,125,70,.12); }
+.tag-container { display: flex; flex-wrap: wrap; gap: .35rem; }
+.tag { background: var(--green-pale); color: var(--green-dark); border: 1px solid var(--border-dark); padding: .2rem .6rem; border-radius: 20px; font-size: .78rem; font-weight: 500; display: flex; align-items: center; gap: .3rem; }
+.tag-remove { cursor: pointer; color: var(--text-muted); font-size: .9rem; line-height: 1; transition: color .15s; }
+.tag-remove:hover { color: var(--red-alert); }
+#culture-input { border: none; outline: none; flex: 1; min-width: 120px; padding: 0; font-size: .88rem; box-shadow: none; }
+.char-count { text-align: right; font-size: .75rem; color: var(--text-muted); margin-top: .25rem; }
+.radio-group { display: flex; gap: 1.5rem; }
+.radio-label { display: flex; align-items: center; gap: .5rem; font-size: .9rem; font-weight: 400; cursor: pointer; color: var(--text-primary); }
+.radio-label input[type="radio"] { accent-color: var(--green-mid); width: 16px; height: 16px; }
+
+/* UPLOAD */
+.upload-zone { border: 2.5px dashed var(--border-dark); border-radius: var(--radius-md); background: var(--green-pale); padding: 2.5rem 2rem; text-align: center; transition: border-color .2s, background .2s; cursor: pointer; }
+.upload-zone:hover, .upload-zone.drag-over { border-color: var(--green-mid); background: #d7f0df; }
+.upload-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+.upload-hint { color: var(--text-muted); font-size: .88rem; margin: .25rem 0; }
+.upload-formats { font-size: .75rem; color: var(--text-muted); margin: .5rem 0 1rem; }
+.file-list { margin-top: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+.file-item { display: flex; align-items: center; gap: .75rem; padding: .65rem 1rem; background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: .85rem; }
+.file-icon { font-size: 1.2rem; }
+.file-name { flex: 1; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-size { color: var(--text-muted); font-size: .78rem; }
+.file-remove { cursor: pointer; color: var(--text-muted); transition: color .15s; }
+.file-remove:hover { color: var(--red-alert); }
+.document-guide { margin-top: 1.5rem; background: var(--blue-pale); border: 1px solid #b3cff0; border-radius: var(--radius-md); padding: 1.25rem 1.5rem; }
+.document-guide h4 { font-size: .88rem; color: var(--blue); margin-bottom: .85rem; }
+.guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.guide-item { display: flex; align-items: flex-start; gap: .5rem; font-size: .82rem; color: var(--text-secondary); }
+
+/* RECAP */
+.recap-card { background: var(--bg-page); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem; }
+.recap-section { margin-bottom: 1.25rem; }
+.recap-section h4 { font-size: .8rem; font-weight: 700; color: var(--green-dark); text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--border); padding-bottom: .35rem; margin-bottom: .75rem; }
+.recap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem .75rem; }
+.recap-item { font-size: .85rem; }
+.recap-item .rlabel { color: var(--text-muted); font-size: .78rem; }
+.recap-item .rvalue { font-weight: 500; }
+.consent-block { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 1.75rem; }
+.checkbox-label { display: flex; align-items: flex-start; gap: .6rem; font-size: .85rem; font-weight: 400; color: var(--text-secondary); cursor: pointer; line-height: 1.5; }
+.checkbox-label input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin-top: .15rem; accent-color: var(--green-mid); }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: .4rem; padding: .7rem 1.5rem; border-radius: var(--radius-sm); font-family: var(--font); font-size: .9rem; font-weight: 600; cursor: pointer; transition: background .2s, transform .15s, box-shadow .2s; border: none; text-decoration: none; }
+.btn:hover { transform: translateY(-1px); text-decoration: none; }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--green-mid); color: #fff; box-shadow: 0 2px 8px rgba(46,125,70,.25); }
+.btn-primary:hover { background: var(--green-dark); }
+.btn-secondary { background: var(--bg-page); color: var(--text-secondary); border: 1.5px solid var(--border); }
+.btn-secondary:hover { background: var(--border); }
+.btn-outline { background: transparent; color: var(--green-mid); border: 1.5px solid var(--green-mid); }
+.btn-outline:hover { background: var(--green-pale); }
+.btn-sm { padding: .4rem .9rem; font-size: .8rem; }
+.btn-submit { background: linear-gradient(135deg, var(--green-mid), var(--green-dark)); color: #fff; padding: .85rem 2.5rem; font-size: 1rem; border-radius: var(--radius-md); box-shadow: 0 4px 16px rgba(46,125,70,.3); }
+.btn-submit:hover { box-shadow: 0 6px 24px rgba(46,125,70,.4); background: linear-gradient(135deg, var(--green-dark), #0e3d1c); }
+.btn-hero { background: linear-gradient(135deg, var(--green-mid), var(--green-dark)); color: #fff; width: 100%; justify-content: center; padding: .85rem 1.5rem; border-radius: var(--radius-md); font-size: .95rem; }
+.form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+/* SUCCESS */
+.success-state { background: var(--bg-white); border-radius: var(--radius-lg); padding: 3.5rem 2.5rem; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+.success-icon { font-size: 4rem; margin-bottom: 1rem; }
+.success-state h2 { font-size: 1.6rem; color: var(--green-dark); margin-bottom: 1.5rem; }
+.reference-box { display: inline-flex; align-items: center; gap: 1rem; background: var(--green-pale); border: 2px solid var(--green-light); border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
+.reference-box span { font-size: .85rem; color: var(--text-muted); }
+.reference-box strong { font-size: 1.4rem; font-family: monospace; color: var(--green-dark); letter-spacing: .05em; }
+.success-state > p { color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 500px; margin-inline: auto; }
+.success-actions { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+.next-steps { background: var(--bg-page); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; text-align: left; max-width: 460px; margin: 0 auto; }
+.next-steps h4 { font-size: .88rem; color: var(--green-dark); margin-bottom: .75rem; }
+.next-steps ol { padding-left: 1.2rem; }
+.next-steps ol li { font-size: .85rem; color: var(--text-secondary); margin-bottom: .4rem; }
+
+/* AIDE */
+.aide-section { background: var(--green-dark); color: #fff; padding: 4rem 0; }
+.aide-section h2 { font-size: 1.6rem; margin-bottom: 2rem; text-align: center; }
+.aide-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+.aide-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-md); padding: 1.5rem 1.25rem; text-align: center; transition: background .2s; }
+.aide-card:hover { background: rgba(255,255,255,.13); }
+.aide-icon { font-size: 2rem; margin-bottom: .75rem; display: block; }
+.aide-card h4 { font-size: .95rem; margin-bottom: .5rem; }
+.aide-card p { font-size: .88rem; color: rgba(255,255,255,.75); }
+.aide-card small { font-size: .75rem; color: rgba(255,255,255,.55); display: block; margin-top: .3rem; }
+.aide-link { font-size: .82rem; color: #a8ffb8; margin-top: .5rem; display: inline-block; }
+
+/* FOOTER */
+.site-footer { background: #0e3d1c; color: rgba(255,255,255,.7); padding: 2rem 0; }
+.footer-inner { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+.footer-brand { display: flex; align-items: center; gap: .6rem; color: rgba(255,255,255,.85); }
+.footer-brand strong { font-size: .95rem; color: #fff; }
+.footer-brand small { font-size: .72rem; color: rgba(255,255,255,.55); }
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+.footer-links a { font-size: .8rem; color: rgba(255,255,255,.55); }
+.footer-links a:hover { color: #fff; }
+.footer-copy { font-size: .75rem; color: rgba(255,255,255,.4); }
+
+/* SUIVI PAGE */
+.suivi-hero { background: linear-gradient(135deg, var(--green-dark), var(--green-mid)); padding: 3rem 0 2.5rem; color: #fff; text-align: center; }
+.suivi-hero h1 { font-size: 2rem; margin-bottom: .5rem; }
+.suivi-hero p { color: rgba(255,255,255,.8); font-size: 1rem; }
+.search-card { background: var(--bg-white); border-radius: var(--radius-lg); padding: 2rem 2.5rem; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin: 2rem auto; max-width: 600px; }
+.search-card h3 { font-size: 1.1rem; color: var(--green-dark); margin-bottom: 1.25rem; }
+.search-row { display: flex; gap: .75rem; }
+.search-row input { flex: 1; }
+.dossiers-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin: 0 auto; max-width: 780px; padding-bottom: 3rem; }
+.dossier-card { background: var(--bg-white); border-radius: var(--radius-md); padding: 1.5rem; border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: start; transition: box-shadow .2s; }
+.dossier-card:hover { box-shadow: var(--shadow-md); }
+.dossier-icon-col { font-size: 2rem; padding-top: .25rem; }
+.dossier-ref { font-size: .75rem; color: var(--text-muted); margin-bottom: .25rem; }
+.dossier-ref strong { font-family: monospace; color: var(--text-primary); }
+.dossier-title { font-size: 1rem; font-weight: 600; margin-bottom: .35rem; }
+.dossier-meta { font-size: .8rem; color: var(--text-muted); }
+.dossier-meta span { margin-right: 1rem; }
+.progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin: .75rem 0 .3rem; }
+.progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--green-light), var(--green-mid)); }
+.status-badge { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .75rem; border-radius: 20px; font-size: .75rem; font-weight: 600; white-space: nowrap; }
+.status-recu   { background: var(--blue-pale); color: var(--blue); }
+.status-etude  { background: #fff8ed; color: #b56f00; }
+.status-terrain{ background: #fff3e0; color: #e65100; }
+.status-traite { background: var(--green-pale); color: var(--green-dark); }
+.timeline { margin-top: 1rem; padding-left: .5rem; }
+.timeline-item { display: flex; gap: .85rem; padding-bottom: 1.25rem; position: relative; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--border); flex-shrink: 0; margin-top: .3rem; position: relative; z-index: 1; }
+.timeline-dot.done { background: var(--green-light); }
+.timeline-dot.active { background: var(--amber); box-shadow: 0 0 0 3px rgba(232,135,10,.2); }
+.timeline-item:not(:last-child) .timeline-dot::after { content: ''; position: absolute; left: 50%; top: 14px; transform: translateX(-50%); width: 2px; height: calc(100% + 1.25rem - 14px); background: var(--border); }
+.timeline-item:not(:last-child) .timeline-dot.done::after { background: var(--green-light); }
+.tl-date { font-size: .75rem; color: var(--text-muted); }
+.tl-label { font-size: .88rem; font-weight: 500; }
+.tl-desc { font-size: .78rem; color: var(--text-muted); margin-top: .1rem; }
+
+/* TABS NAV */
+.page { display: none; }
+.page.active { display: block; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-card { width: 100%; }
+  .hero-text h1 { font-size: 1.8rem; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .aide-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .header-nav { display: none; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-step { padding: 1.5rem 1.25rem; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .guide-grid { grid-template-columns: 1fr; }
+  .aide-grid { grid-template-columns: 1fr; }
+  .search-row { flex-direction: column; }
+  .recap-grid { grid-template-columns: 1fr; }
+  .success-actions { flex-direction: column; align-items: center; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">🌾</span>
+      <div>
+        <strong>AgriRéclamation</strong>
+        <small>Portail National des Agriculteurs</small>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-link active" onclick="showPage('form-page', this)">Nouvelle réclamation</a>
+      <a class="nav-link"       onclick="showPage('suivi-page', this)">Suivi de dossier</a>
+      <a class="nav-link" href="#aide-section">Aide</a>
+    </nav>
+    <span class="badge badge-secure">🔒 Espace sécurisé</span>
+  </div>
+</header>
+
+<!-- ═══════════════════ PAGE : FORMULAIRE ═══════════════════ -->
+<div id="form-page" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <span class="hero-tag">Nouveau service numérique</span>
+        <h1>Déposez votre réclamation<br /><em>en quelques minutes</em></h1>
+        <p>Signalez vos problèmes agricoles directement aux services compétents — pertes de récolte, litiges fonciers, aides impayées, dommages climatiques et plus encore.</p>
+        <div class="hero-stats">
+          <div class="stat"><strong>4 840</strong><span>Dossiers traités</span></div>
+          <div class="stat"><strong>72h</strong><span>Délai moyen de réponse</span></div>
+          <div class="stat"><strong>96%</strong><span>Taux de satisfaction</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">📋</div>
+        <p>Formulaire en <strong>4 étapes</strong> guidées</p>
+        <ul class="hero-steps-mini">
+          <li><span class="dot dot-1"></span>Identification</li>
+          <li><span class="dot dot-2"></span>Nature du problème</li>
+          <li><span class="dot dot-3"></span>Preuves &amp; documents</li>
+          <li><span class="dot dot-4"></span>Confirmation</li>
+        </ul>
+        <a href="#form" class="btn btn-hero">Commencer ma réclamation →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERTE -->
+  <div class="alert-banner container">
+    <span class="alert-icon">⚠️</span>
+    <span><strong>Alerte sécheresse 2025 :</strong> Les demandes d'indemnisation pour la sécheresse du printemps 2025 sont ouvertes jusqu'au <strong>30 juin 2025</strong>.</span>
+    <a href="#" class="alert-link">En savoir plus →</a>
+  </div>
+
+  <!-- FORMULAIRE -->
+  <main class="container form-section" id="form">
+
+    <!-- Barre de progression -->
+    <div class="progress-bar-wrapper">
+      <div class="step-indicators">
+        <div class="step-indicator active" id="ind-1"><div class="step-circle">1</div><span>Identification</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator" id="ind-2"><div class="step-circle">2</div><span>Réclamation</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator" id="ind-3"><div class="step-circle">3</div><span>Documents</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator" id="ind-4"><div class="step-circle">4</div><span>Confirmation</span></div>
+      </div>
+    </div>
+
+    <form id="complaint-form" novalidate>
+
+      <!-- ── ÉTAPE 1 ── -->
+      <div class="form-step active" id="step-1">
+        <div class="step-header">
+          <h2>👤 Identification de l'agriculteur</h2>
+          <p>Ces informations nous permettent de vous contacter et de localiser votre exploitation.</p>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="prenom">Prénom <span class="req">*</span></label>
+            <input type="text" id="prenom" placeholder="Ahmed" required />
+          </div>
+          <div class="form-group">
+            <label for="nom">Nom <span class="req">*</span></label>
+            <input type="text" id="nom" placeholder="Benali" required />
+          </div>
+          <div class="form-group">
+            <label for="cin">N° CIN / Carte agriculteur <span class="req">*</span></label>
+            <input type="text" id="cin" placeholder="A123456" required />
+          </div>
+          <div class="form-group">
+            <label for="tel">Téléphone <span class="req">*</span></label>
+            <input type="tel" id="tel" placeholder="06 XX XX XX XX" required />
+          </div>
+          <div class="form-group full-width">
+            <label for="email">Adresse e-mail</label>
+            <input type="email" id="email" placeholder="ahmed.benali@exemple.ma" />
+            <span class="hint">Pour recevoir les notifications de suivi de votre dossier</span>
+          </div>
+          <div class="section-divider"><span>📍 Localisation de l'exploitation</span></div>
+          <div class="form-group">
+            <label for="region">Région <span class="req">*</span></label>
+            <select id="region" required>
+              <option value="">-- Sélectionner --</option>
+              <option>Tanger-Tétouan-Al Hoceïma</option>
+              <option>L'Oriental</option>
+              <option>Fès-Meknès</option>
+              <option>Rabat-Salé-Kénitra</option>
+              <option>Béni Mellal-Khénifra</option>
+              <option>Casablanca-Settat</option>
+              <option>Marrakech-Safi</option>
+              <option>Drâa-Tafilalet</option>
+              <option>Souss-Massa</option>
+              <option>Guelmim-Oued Noun</option>
+              <option>Laâyoune-Sakia El Hamra</option>
+              <option>Dakhla-Oued Ed-Dahab</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="province">Province / Cercle <span class="req">*</span></label>
+            <input type="text" id="province" placeholder="Ex : Meknès" required />
+          </div>
+          <div class="form-group">
+            <label for="commune">Commune rurale <span class="req">*</span></label>
+            <input type="text" id="commune" placeholder="Ex : Aït Ouallal" required />
+          </div>
+          <div class="form-group">
+            <label for="douar">Douar / Lieu-dit</label>
+            <input type="text" id="douar" placeholder="Ex : Douar Sidi Brahim" />
+          </div>
+          <div class="form-group">
+            <label for="superficie">Superficie de l'exploitation (ha)</label>
+            <input type="number" id="superficie" placeholder="Ex : 5.5" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label for="titre_foncier">N° Titre foncier / Réquisition</label>
+            <input type="text" id="titre_foncier" placeholder="Ex : TF 12345/R" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <div></div>
+          <button type="button" class="btn btn-primary" onclick="goToStep(2)">Suivant →</button>
+        </div>
+      </div>
+
+      <!-- ── ÉTAPE 2 ── -->
+      <div class="form-step" id="step-2">
+        <div class="step-header">
+          <h2>📝 Nature de la réclamation</h2>
+          <p>Décrivez le problème rencontré avec précision pour permettre un traitement rapide de votre dossier.</p>
+        </div>
+        <div class="form-group full-width">
+          <label>Catégorie de réclamation <span class="req">*</span></label>
+          <div class="category-grid" id="category-grid">
+            <div class="cat-card" data-cat="climatique" onclick="selectCategory(this)"><span class="cat-icon">🌧️</span><strong>Aléa climatique</strong><small>Sécheresse, grêle, gel, inondation</small></div>
+            <div class="cat-card" data-cat="foncier"    onclick="selectCategory(this)"><span class="cat-icon">📐</span><strong>Litige foncier</strong><small>Délimitation, accaparement, bornage</small></div>
+            <div class="cat-card" data-cat="subvention" onclick="selectCategory(this)"><span class="cat-icon">💰</span><strong>Aides &amp; subventions</strong><small>Fond Agricole, FDA, crédit Tayssir</small></div>
+            <div class="cat-card" data-cat="eau"        onclick="selectCategory(this)"><span class="cat-icon">💧</span><strong>Eau &amp; irrigation</strong><small>Accès eau, canal, tarification</small></div>
+            <div class="cat-card" data-cat="intrants"   onclick="selectCategory(this)"><span class="cat-icon">🌱</span><strong>Intrants agricoles</strong><small>Semences, engrais, pesticides</small></div>
+            <div class="cat-card" data-cat="equipement" onclick="selectCategory(this)"><span class="cat-icon">🚜</span><strong>Équipements</strong><small>Matériel, mécanisation, stockage</small></div>
+            <div class="cat-card" data-cat="ravageur"   onclick="selectCategory(this)"><span class="cat-icon">🐛</span><strong>Ravageurs &amp; maladies</strong><small>Invasion acridienne, cryptogamique</small></div>
+            <div class="cat-card" data-cat="marche"     onclick="selectCategory(this)"><span class="cat-icon">📊</span><strong>Prix &amp; marché</strong><small>Effondrement prix, intermédiaires</small></div>
+            <div class="cat-card" data-cat="infra"      onclick="selectCategory(this)"><span class="cat-icon">🛤️</span><strong>Infrastructure</strong><small>Pistes, électricité rurale, stockage</small></div>
+            <div class="cat-card" data-cat="autre"      onclick="selectCategory(this)"><span class="cat-icon">📌</span><strong>Autre</strong><small>Signalement non listé ci-dessus</small></div>
+          </div>
+          <input type="hidden" id="categorie" required />
+        </div>
+        <div class="form-group full-width" id="subcategory-group" style="display:none;">
+          <label for="sous_categorie">Sous-catégorie</label>
+          <select id="sous_categorie"><option value="">-- Préciser --</option></select>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="date_incident">Date de survenance <span class="req">*</span></label>
+            <input type="date" id="date_incident" required />
+          </div>
+          <div class="form-group">
+            <label for="urgence">Niveau d'urgence <span class="req">*</span></label>
+            <select id="urgence" required>
+              <option value="">-- Sélectionner --</option>
+              <option value="critique">🔴 Critique — impact immédiat sur la production</option>
+              <option value="eleve">🟠 Élevé — perte significative en cours</option>
+              <option value="moyen">🟡 Moyen — situation dégradée mais stable</option>
+              <option value="faible">🟢 Faible — gêne ou signalement préventif</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="surface_touchee">Superficie touchée (ha)</label>
+            <input type="number" id="surface_touchee" placeholder="Ex : 3.2" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label for="perte_estimee">Perte estimée (MAD)</label>
+            <input type="number" id="perte_estimee" placeholder="Ex : 15000" min="0" />
+          </div>
+          <div class="form-group full-width">
+            <label>Cultures / Productions touchées</label>
+            <div class="tag-input-wrapper" onclick="document.getElementById('culture-input').focus()">
+              <div id="tag-container" class="tag-container"></div>
+              <input type="text" id="culture-input" placeholder="Blé dur, olivier, agrumes… (Entrée pour ajouter)" />
+              <input type="hidden" id="cultures_touchees" />
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label for="description">Description détaillée <span class="req">*</span></label>
+            <textarea id="description" rows="6" placeholder="Décrivez le problème : quand, comment, quelles conséquences sur votre exploitation, démarches déjà entreprises…" required></textarea>
+            <div class="char-count"><span id="char-count">0</span>/1000 caractères</div>
+          </div>
+        </div>
+        <div class="form-group full-width">
+          <label>Des démarches ont-elles déjà été entreprises ?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="demarches" value="oui" /> Oui</label>
+            <label class="radio-label"><input type="radio" name="demarches" value="non" checked /> Non</label>
+          </div>
+        </div>
+        <div class="form-group full-width" id="demarches-detail" style="display:none;">
+          <label for="demarches_desc">Précisez les démarches effectuées</label>
+          <textarea id="demarches_desc" rows="3" placeholder="Auprès de qui ? Quand ? Résultat obtenu ?"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(1)">← Précédent</button>
+          <button type="button" class="btn btn-primary"   onclick="goToStep(3)">Suivant →</button>
+        </div>
+      </div>
+
+      <!-- ── ÉTAPE 3 ── -->
+      <div class="form-step" id="step-3">
+        <div class="step-header">
+          <h2>📎 Pièces jointes &amp; preuves</h2>
+          <p>Les documents renforcent votre dossier. Photos, actes, factures — tout justificatif est utile.</p>
+        </div>
+        <div class="upload-zone" id="upload-zone">
+          <div class="upload-icon">📁</div>
+          <p><strong>Glisser-déposer vos fichiers ici</strong></p>
+          <p class="upload-hint">ou cliquez pour parcourir</p>
+          <p class="upload-formats">Formats acceptés : JPG, PNG, PDF, MP4 · Max 10 Mo par fichier · 5 fichiers max</p>
+          <input type="file" id="file-input" multiple accept=".jpg,.jpeg,.png,.pdf,.mp4" style="display:none;" />
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('file-input').click()">Parcourir les fichiers</button>
+        </div>
+        <div id="file-list" class="file-list" style="display:none;"></div>
+        <div class="document-guide">
+          <h4>📋 Selon votre réclamation, pensez à joindre :</h4>
+          <div class="guide-grid">
+            <div class="guide-item"><span>📸</span><span>Photos des dommages ou de la situation</span></div>
+            <div class="guide-item"><span>📄</span><span>Copie du titre foncier ou acte de possession</span></div>
+            <div class="guide-item"><span>🧾</span><span>Factures d'achats d'intrants ou de matériel</span></div>
+            <div class="guide-item"><span>📑</span><span>Relevés bancaires ou avis de paiement FDA</span></div>
+            <div class="guide-item"><span>🌡️</span><span>Bulletins météo ou rapports de constat</span></div>
+            <div class="guide-item"><span>✉️</span><span>Correspondances avec les services agricoles</span></div>
+          </div>
+        </div>
+        <div class="form-group full-width" style="margin-top:1.5rem;">
+          <label for="notes_doc">Remarques sur les documents joints</label>
+          <textarea id="notes_doc" rows="3" placeholder="Précisez si des documents sont en cours d'obtention…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(2)">← Précédent</button>
+          <button type="button" class="btn btn-primary"   onclick="goToStep(4)">Suivant →</button>
+        </div>
+      </div>
+
+      <!-- ── ÉTAPE 4 ── -->
+      <div class="form-step" id="step-4">
+        <div class="step-header">
+          <h2>✅ Récapitulatif &amp; confirmation</h2>
+          <p>Vérifiez les informations avant de soumettre votre réclamation.</p>
+        </div>
+        <div id="recap-content" class="recap-card"></div>
+        <div class="consent-block">
+          <label class="checkbox-label">
+            <input type="checkbox" id="consent" required />
+            <span>Je certifie que les informations fournies sont exactes et complètes. J'autorise les services agricoles compétents à traiter mes données dans le cadre du traitement de cette réclamation.</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="notifications" />
+            <span>Je souhaite recevoir des notifications par SMS/e-mail sur l'avancement de mon dossier.</span>
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(3)">← Précédent</button>
+          <button type="submit" class="btn btn-submit" id="submit-btn"><span>📨 Soumettre ma réclamation</span></button>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- SUCCÈS -->
+    <div id="success-state" class="success-state" style="display:none;">
+      <div class="success-icon">✅</div>
+      <h2>Réclamation enregistrée avec succès !</h2>
+      <div class="reference-box">
+        <span>Votre numéro de dossier</span>
+        <strong id="ref-number">AGRI-2025-XXXXX</strong>
+        <button class="btn btn-outline btn-sm" onclick="copyRef()">📋 Copier</button>
+      </div>
+      <p>Un accusé de réception vous sera envoyé sous <strong>24h</strong>. Votre dossier sera traité dans un délai de <strong>72h ouvrées</strong>.</p>
+      <div class="success-actions">
+        <button class="btn btn-primary" onclick="showPage('suivi-page', null)">📂 Suivre mon dossier</button>
+        <button class="btn btn-outline" onclick="resetForm()">➕ Nouvelle réclamation</button>
+      </div>
+      <div class="next-steps">
+        <h4>Prochaines étapes :</h4>
+        <ol>
+          <li>Accusé de réception par SMS/e-mail</li>
+          <li>Étude du dossier par le service compétent</li>
+          <li>Visite de terrain si nécessaire</li>
+          <li>Notification de la décision</li>
+        </ol>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- AIDE -->
+  <section class="aide-section" id="aide-section">
+    <div class="container">
+      <h2>Besoin d'aide ?</h2>
+      <div class="aide-grid">
+        <div class="aide-card"><span class="aide-icon">📞</span><h4>Numéro vert</h4><p><strong>0800 100 200</strong></p><small>Gratuit · Lun–Ven 8h–17h</small></div>
+        <div class="aide-card"><span class="aide-icon">🏢</span><h4>Direction Provinciale</h4><p>Rendez-vous au guichet agricole de votre province</p><a href="#" class="aide-link">Trouver mon bureau →</a></div>
+        <div class="aide-card"><span class="aide-icon">💬</span><h4>WhatsApp officiel</h4><p><strong>0600 000 100</strong></p><small>Assistance 7j/7 par messagerie</small></div>
+        <div class="aide-card"><span class="aide-icon">📺</span><h4>Tutoriel vidéo</h4><p>Guide pas à pas pour remplir votre réclamation</p><a href="#" class="aide-link">Voir la vidéo →</a></div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /form-page -->
+
+<!-- ═══════════════════ PAGE : SUIVI ═══════════════════ -->
+<div id="suivi-page" class="page">
+
+  <section class="suivi-hero">
+    <div class="container">
+      <h1>📂 Suivi de vos réclamations</h1>
+      <p>Suivez l'état d'avancement de vos dossiers en temps réel</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="search-card">
+      <h3>🔍 Rechercher un dossier</h3>
+      <div class="search-row">
+        <input type="text" id="search-ref" placeholder="N° de référence (ex: AGRI-2025-12345)" />
+        <button class="btn btn-primary">Rechercher</button>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-muted);margin-top:.75rem;">ou <strong>CIN + Téléphone</strong> pour retrouver tous vos dossiers :</p>
+      <div class="search-row" style="margin-top:.5rem;">
+        <input type="text" placeholder="N° CIN" />
+        <input type="tel"  placeholder="Téléphone" />
+        <button class="btn btn-outline">Accéder</button>
+      </div>
+    </div>
+
+    <div class="dossiers-grid">
+
+      <!-- Dossier 1 -->
+      <div class="dossier-card">
+        <div class="dossier-icon-col">🌧️</div>
+        <div>
+          <div class="dossier-ref">Référence : <strong>AGRI-2025-47821</strong></div>
+          <div class="dossier-title">Dommages sécheresse — Culture blé dur</div>
+          <div class="dossier-meta">
+            <span>📅 14/03/2025</span><span>📍 Meknès · Douar Sidi Bou Ali</span><span>🌾 4,5 ha</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:75%"></div></div>
+          <div style="font-size:.75rem;color:var(--text-muted);">Étape 3/4 — Visite terrain planifiée</div>
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="tl-label">Réclamation reçue</div><div class="tl-date">14/03/2025 · 09:42</div><div class="tl-desc">Accusé de réception envoyé par SMS</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="tl-label">Dossier en cours d'étude</div><div class="tl-date">16/03/2025 · 11:00</div><div class="tl-desc">Affecté à M. Taoufik Riad — Direction Provinciale Meknès</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot active"></div><div><div class="tl-label">Visite terrain programmée</div><div class="tl-date">📅 Prévue le 22/03/2025</div><div class="tl-desc">Un agent se rendra sur votre exploitation pour constater les dommages</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot"></div><div><div class="tl-label">Décision &amp; indemnisation</div><div class="tl-date">En attente</div></div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
+          <span class="status-badge status-terrain">🟠 Terrain</span>
+          <span style="font-size:.75rem;color:var(--text-muted);">Urgence : Élevée</span>
+          <button class="btn btn-outline btn-sm" style="margin-top:.5rem;">Voir détails</button>
+        </div>
+      </div>
+
+      <!-- Dossier 2 -->
+      <div class="dossier-card">
+        <div class="dossier-icon-col">💰</div>
+        <div>
+          <div class="dossier-ref">Référence : <strong>AGRI-2025-33104</strong></div>
+          <div class="dossier-title">Aide FDA non reçue — Campagne 2024/2025</div>
+          <div class="dossier-meta">
+            <span>📅 02/02/2025</span><span>📍 Beni Mellal · Commune Ouled Yaïch</span><span>💵 12 000 MAD</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+          <div style="font-size:.75rem;color:var(--text-muted);">Étape 4/4 — Dossier traité</div>
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="tl-label">Réclamation reçue</div><div class="tl-date">02/02/2025</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="tl-label">Vérification administrative</div><div class="tl-date">05/02/2025</div><div class="tl-desc">Coordonnées bancaires validées</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="tl-label">Virement effectué</div><div class="tl-date">12/02/2025</div><div class="tl-desc">12 000 MAD virés sur votre compte CIH</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="tl-label">Dossier clôturé</div><div class="tl-date">13/02/2025</div></div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
+          <span class="status-badge status-traite">✅ Traité</span>
+          <span style="font-size:.75rem;color:var(--text-muted);">Urgence : Moyen</span>
+          <button class="btn btn-outline btn-sm" style="margin-top:.5rem;">Voir détails</button>
+        </div>
+      </div>
+
+      <!-- Dossier 3 -->
+      <div class="dossier-card">
+        <div class="dossier-icon-col">💧</div>
+        <div>
+          <div class="dossier-ref">Référence : <strong>AGRI-2025-51290</strong></div>
+          <div class="dossier-title">Coupure d'irrigation — Canal secondaire endommagé</div>
+          <div class="dossier-meta">
+            <span>📅 28/03/2025</span><span>📍 Marrakech · Commune Chichaoua</span><span>🌾 2 ha</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
+          <div style="font-size:.75rem;color:var(--text-muted);">Étape 1/4 — Dossier reçu, en cours d'étude</div>
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="tl-label">Réclamation reçue</div><div class="tl-date">28/03/2025 · 14:17</div><div class="tl-desc">Accusé de réception envoyé par e-mail</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot active"></div><div><div class="tl-label">Étude du dossier</div><div class="tl-date">En cours — délai estimé : 2 jours</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot"></div><div><div class="tl-label">Visite terrain</div><div class="tl-date">En attente</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot"></div><div><div class="tl-label">Décision</div><div class="tl-date">En attente</div></div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
+          <span class="status-badge status-etude">🟡 En étude</span>
+          <span style="font-size:.75rem;color:var(--text-muted);">Urgence : Critique</span>
+          <button class="btn btn-outline btn-sm" style="margin-top:.5rem;">Voir détails</button>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;padding:1rem 0 3rem;">
+      <button class="btn btn-primary" onclick="showPage('form-page', null)">➕ Déposer une nouvelle réclamation</button>
+    </div>
+  </div>
+
+  <!-- AIDE -->
+  <section class="aide-section">
+    <div class="container">
+      <h2>Besoin d'aide ?</h2>
+      <div class="aide-grid">
+        <div class="aide-card"><span class="aide-icon">📞</span><h4>Numéro vert</h4><p><strong>0800 100 200</strong></p><small>Gratuit · Lun–Ven 8h–17h</small></div>
+        <div class="aide-card"><span class="aide-icon">🏢</span><h4>Direction Provinciale</h4><p>Rendez-vous au guichet agricole de votre province</p></div>
+        <div class="aide-card"><span class="aide-icon">💬</span><h4>WhatsApp officiel</h4><p><strong>0600 000 100</strong></p><small>Assistance 7j/7 par messagerie</small></div>
+        <div class="aide-card"><span class="aide-icon">📺</span><h4>Tutoriel vidéo</h4><p>Guide pas à pas pour remplir votre réclamation</p></div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /suivi-page -->
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">🌾</span>
+      <div>
+        <strong>AgriRéclamation</strong>
+        <small>Ministère de l'Agriculture, de la Pêche Maritime, du Développement Rural et des Eaux et Forêts</small>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">Conditions d'utilisation</a>
+      <a href="#">Accessibilité</a>
+    </div>
+    <p class="footer-copy">© 2025 — Tous droits réservés · Données protégées</p>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+/* ── Page switching ── */
+function showPage(id, linkEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  if (linkEl) linkEl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── Form state ── */
+let currentStep = 1;
+const tags = [];
+const uploadedFiles = [];
+
+const subcategories = {
+  climatique:  ['Sécheresse', 'Grêle', 'Gel / gelée tardive', 'Inondation / crue', 'Tempête / vent violent', 'Autre aléa climatique'],
+  foncier:     ['Empiétement / accaparement', 'Contestation de bornage', 'Problème de titre foncier', 'Litige successoral', 'Occupation illicite'],
+  subvention:  ['Aide FDA non reçue', 'Crédit Tayssir bloqué', 'Subvention semences/engrais', 'Prime Assurance agricole', 'Autre aide gouvernementale'],
+  eau:         ["Coupure d'irrigation", 'Tarification abusive', 'Dégradation de canal', 'Accès puits / forage refusé', "Mauvaise qualité de l'eau"],
+  intrants:    ['Semences non conformes', 'Engrais contrefait', 'Pesticide défectueux', 'Prix excessif intrants', 'Rupture approvisionnement'],
+  equipement:  ['Matériel agricole défectueux', 'Refus de mécanisation', 'Stockage / entrepôt frigorifique', 'Semoir / tracteur en panne'],
+  ravageur:    ['Invasion acridienne', 'Maladie cryptogamique', 'Ravageurs insectes', 'Maladie virale cultures', 'Nuisibles élevage'],
+  marche:      ['Effondrement des prix', 'Intermédiaires abusifs', 'Accès marché refusé', 'Non-respect de contrat', 'Concurrence déloyale'],
+  infra:       ['Piste agricole dégradée', "Manque d'électricité rurale", 'Absence de souk rural', 'Problème réseau GSM'],
+  autre:       ['Signalement environnemental', 'Conflit de voisinage', 'Problème administratif', 'Autre (préciser dans description)'],
+};
+
+/* ── Navigation entre étapes ── */
+function goToStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+  document.getElementById(`step-${currentStep}`).classList.remove('active');
+  const ind = document.getElementById(`ind-${currentStep}`);
+  ind.classList.remove('active');
+  ind.classList.add('done');
+  const lines = document.querySelectorAll('.step-line');
+  if (currentStep - 1 < lines.length) lines[currentStep - 1].classList.add('done');
+  if (n < currentStep) {
+    for (let i = n; i <= currentStep; i++) {
+      const el = document.getElementById(`ind-${i}`);
+      el.classList.remove('done', 'active');
+    }
+    document.getElementById(`ind-${n}`).classList.add('active');
+    for (let i = n - 1; i < lines.length; i++) lines[i].classList.remove('done');
+  }
+  currentStep = n;
+  document.getElementById(`step-${n}`).classList.add('active');
+  document.getElementById(`ind-${n}`).classList.remove('done');
+  document.getElementById(`ind-${n}`).classList.add('active');
+  if (n === 4) buildRecap();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── Validation ── */
+function validateStep(step) {
+  let valid = true;
+  document.querySelectorAll(`#step-${step} [required]`).forEach(f => {
+    clearError(f);
+    if (!f.value.trim()) { showError(f, 'Ce champ est obligatoire'); valid = false; }
+  });
+  if (step === 2 && !document.getElementById('categorie').value) {
+    const grid = document.getElementById('category-grid');
+    grid.style.outline = '2px solid var(--red-alert)';
+    grid.style.borderRadius = '8px';
+    valid = false;
+  }
+  return valid;
+}
+function showError(el, msg) {
+  el.classList.add('error');
+  if (!el.parentElement.querySelector('.error-msg')) {
+    const s = document.createElement('span'); s.className = 'error-msg'; s.textContent = msg;
+    el.parentElement.appendChild(s);
+  }
+}
+function clearError(el) {
+  el.classList.remove('error');
+  const e = el.parentElement.querySelector('.error-msg');
+  if (e) e.remove();
+}
+
+/* ── Sélection catégorie ── */
+function selectCategory(card) {
+  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const cat = card.dataset.cat;
+  document.getElementById('categorie').value = cat;
+  document.getElementById('category-grid').style.outline = '';
+  const sel = document.getElementById('sous_categorie');
+  sel.innerHTML = '<option value="">-- Préciser --</option>';
+  (subcategories[cat] || []).forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+  document.getElementById('subcategory-group').style.display = 'block';
+}
+
+/* ── Tags cultures ── */
+function addTag(text) {
+  if (!text || tags.includes(text)) return;
+  tags.push(text);
+  renderTags();
+  document.getElementById('cultures_touchees').value = tags.join(',');
+}
+function removeTag(idx) {
+  tags.splice(idx, 1);
+  renderTags();
+  document.getElementById('cultures_touchees').value = tags.join(',');
+}
+function renderTags() {
+  const c = document.getElementById('tag-container');
+  c.innerHTML = '';
+  tags.forEach((t, i) => {
+    const s = document.createElement('span');
+    s.className = 'tag';
+    s.innerHTML = `${t}<span class="tag-remove" onclick="removeTag(${i})">×</span>`;
+    c.appendChild(s);
+  });
+}
+
+/* ── Upload fichiers ── */
+function handleFiles(list) {
+  Array.from(list).forEach(f => {
+    if (uploadedFiles.length >= 5) return;
+    if (f.size > 10 * 1024 * 1024) { alert(`${f.name} dépasse 10 Mo.`); return; }
+    uploadedFiles.push(f);
+  });
+  renderFiles();
+}
+function removeFile(i) { uploadedFiles.splice(i, 1); renderFiles(); }
+function renderFiles() {
+  const l = document.getElementById('file-list');
+  if (!uploadedFiles.length) { l.style.display = 'none'; return; }
+  l.style.display = 'flex';
+  const icons = { pdf: '📄', jpg: '🖼️', jpeg: '🖼️', png: '🖼️', mp4: '🎥' };
+  l.innerHTML = uploadedFiles.map((f, i) => {
+    const ext = f.name.split('.').pop().toLowerCase();
+    const sz = f.size < 1048576 ? (f.size/1024).toFixed(1)+' Ko' : (f.size/1048576).toFixed(1)+' Mo';
+    return `<div class="file-item"><span class="file-icon">${icons[ext]||'📎'}</span><span class="file-name">${f.name}</span><span class="file-size">${sz}</span><span class="file-remove" onclick="removeFile(${i})">✕</span></div>`;
+  }).join('');
+}
+
+/* ── Récapitulatif ── */
+function buildRecap() {
+  const g = id => (document.getElementById(id)||{}).value || '—';
+  const catCard = document.querySelector('.cat-card.selected');
+  const catLabel = catCard ? catCard.querySelector('strong').textContent : '—';
+  const urgEl = document.getElementById('urgence');
+  const urgLabel = urgEl && urgEl.selectedIndex > 0 ? urgEl.options[urgEl.selectedIndex].text : '—';
+  document.getElementById('recap-content').innerHTML = `
+    <div class="recap-section"><h4>👤 Agriculteur</h4><div class="recap-grid">
+      <div class="recap-item"><div class="rlabel">Nom complet</div><div class="rvalue">${g('prenom')} ${g('nom')}</div></div>
+      <div class="recap-item"><div class="rlabel">CIN / Carte</div><div class="rvalue">${g('cin')}</div></div>
+      <div class="recap-item"><div class="rlabel">Téléphone</div><div class="rvalue">${g('tel')}</div></div>
+      <div class="recap-item"><div class="rlabel">E-mail</div><div class="rvalue">${g('email')||'—'}</div></div>
+    </div></div>
+    <div class="recap-section"><h4>📍 Exploitation</h4><div class="recap-grid">
+      <div class="recap-item"><div class="rlabel">Région</div><div class="rvalue">${g('region')}</div></div>
+      <div class="recap-item"><div class="rlabel">Province</div><div class="rvalue">${g('province')}</div></div>
+      <div class="recap-item"><div class="rlabel">Commune</div><div class="rvalue">${g('commune')}</div></div>
+      <div class="recap-item"><div class="rlabel">Superficie</div><div class="rvalue">${g('superficie') !== '—' ? g('superficie')+' ha' : '—'}</div></div>
+    </div></div>
+    <div class="recap-section"><h4>📝 Réclamation</h4><div class="recap-grid">
+      <div class="recap-item"><div class="rlabel">Catégorie</div><div class="rvalue">${catLabel}</div></div>
+      <div class="recap-item"><div class="rlabel">Urgence</div><div class="rvalue">${urgLabel}</div></div>
+      <div class="recap-item"><div class="rlabel">Date incident</div><div class="rvalue">${g('date_incident')}</div></div>
+      <div class="recap-item"><div class="rlabel">Perte estimée</div><div class="rvalue">${g('perte_estimee') !== '—' ? Number(g('perte_estimee')).toLocaleString('fr-MA')+' MAD' : '—'}</div></div>
+    </div>
+    <div style="margin-top:.75rem;"><div class="rlabel" style="font-size:.78rem;color:var(--text-muted);">Description</div>
+    <div style="font-size:.85rem;margin-top:.25rem;line-height:1.5;">${g('description')}</div></div></div>
+    <div class="recap-section" style="margin-bottom:0;"><h4>📎 Documents</h4>
+    <div class="recap-item"><div class="rvalue">${uploadedFiles.length ? uploadedFiles.map(f=>f.name).join(', ') : 'Aucun document joint'}</div></div></div>`;
+}
+
+/* ── Soumission ── */
+function handleSubmit(e) {
+  e.preventDefault();
+  if (!document.getElementById('consent').checked) { alert('Veuillez accepter les conditions avant de soumettre.'); return; }
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳ Envoi en cours…</span>';
+  setTimeout(() => {
+    const ref = 'AGRI-2025-' + Math.floor(10000 + Math.random() * 90000);
+    document.getElementById('ref-number').textContent = ref;
+    document.getElementById('complaint-form').style.display = 'none';
+    document.querySelector('.progress-bar-wrapper').style.display = 'none';
+    document.getElementById('success-state').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 1800);
+}
+
+function copyRef() {
+  const ref = document.getElementById('ref-number').textContent;
+  navigator.clipboard.writeText(ref).then(() => alert('Référence copiée : ' + ref));
+}
+
+function resetForm() { location.reload(); }
+
+/* ── DOMContentLoaded ── */
+document.addEventListener('DOMContentLoaded', () => {
+  /* Tag input */
+  const ci = document.getElementById('culture-input');
+  if (ci) {
+    ci.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ',') && ci.value.trim()) {
+        e.preventDefault(); addTag(ci.value.trim().replace(/,+$/, '')); ci.value = '';
+      }
+      if (e.key === 'Backspace' && !ci.value && tags.length) removeTag(tags.length - 1);
+    });
+  }
+
+  /* Char count */
+  const desc = document.getElementById('description');
+  if (desc) desc.addEventListener('input', () => { document.getElementById('char-count').textContent = desc.value.length; });
+
+  /* Démarches antérieures */
+  document.querySelectorAll('input[name="demarches"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('demarches-detail').style.display = (r.value === 'oui' && r.checked) ? 'flex' : 'none';
+    });
+  });
+
+  /* Upload */
+  const zone = document.getElementById('upload-zone');
+  const fi = document.getElementById('file-input');
+  if (zone && fi) {
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+    fi.addEventListener('change', () => handleFiles(fi.files));
+  }
+
+  /* Form submit */
+  const form = document.getElementById('complaint-form');
+  if (form) form.addEventListener('submit', handleSubmit);
+});
+</script>
+</body>
+</html>
